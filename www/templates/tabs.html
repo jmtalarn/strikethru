@@ -1,0 +1,27 @@
+<!--
+Create tabs with an icon and label, using the tabs-positive style.
+Each tab's child <ion-nav-view> directive will have its own
+navigation history that also transitions its views in and out.
+-->
+<ion-tabs class="tabs-icon-top tabs-color-active-positive">
+
+  <!-- Livelist Tab -->
+  <ion-tab title="Live list" icon-off="ion-android-checkbox" icon-on="ion-android-checkbox"  href="#/tab/livelist">
+    <ion-nav-view name="tab-livelist"></ion-nav-view>
+  </ion-tab>
+
+  <!-- Vault Tab -->
+  <ion-tab title="Vault" icon-off="ion-android-apps" icon-on="ion-android-apps" href="#/tab/vault">
+    <ion-nav-view name="tab-vault"></ion-nav-view>
+  </ion-tab>
+  <!-- Dump Tab -->
+  <ion-tab title="Dump" icon-off="ion-android-bulb" icon-on="ion-android-bulb"  href="#/tab/dump">
+    <ion-nav-view name="tab-dump"></ion-nav-view>
+  </ion-tab>
+  <!-- Account Tab -->
+  <ion-tab title="Setup" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/tab/setup">
+    <ion-nav-view name="tab-setup"></ion-nav-view>
+  </ion-tab>
+
+
+</ion-tabs>
