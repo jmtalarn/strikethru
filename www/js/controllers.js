@@ -1,5 +1,30 @@
-angular.module('starter.controllers', [])
+angular.module('strikehru.controllers', [])
+/*
+    ionicSideMenuDelegate : used to access the slidable functionality of the menu drawer
+*/
+.controller('loginCtrl', function($scope) {
 
+    // //Check if user already logged in
+    // firebase.auth().onAuthStateChanged(function(user) {
+    //   if (user) {
+    //
+		// //Removes back link to login page
+    //     $ionicHistory.nextViewOptions({
+    //       historyRoot: true
+    //     });
+    //
+    //     $state.go('dash', {}, {location: "replace"});
+    //
+    //   }
+    // });
+
+    $scope.loginGoogle = function(){
+      alert("Hola google");
+      //Gmail Login
+    };
+
+
+})
 .controller('DashCtrl', function($scope) {})
 
 .controller('ChatsCtrl', function($scope, Chats) {
