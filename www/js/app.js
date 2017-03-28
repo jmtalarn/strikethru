@@ -6,7 +6,7 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 angular.module('strikethru', ['ionic','firebase', 'strikehru.controllers', 'strikehru.services'])
-
+.constant('FIREBASE_ROOT', 'https://strikethru-b4a44.firebaseio.com')
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -22,7 +22,6 @@ angular.module('strikethru', ['ionic','firebase', 'strikehru.controllers', 'stri
     }
   });
 })
-
 .config(function($stateProvider, $urlRouterProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
