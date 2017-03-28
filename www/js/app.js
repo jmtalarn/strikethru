@@ -72,12 +72,12 @@ angular.module('strikethru', ['ionic','firebase', 'strikehru.controllers', 'stri
       }
     })
 
-  .state('tab.account', {
-    url: '/account',
+  .state('tab.setup', {
+    url: '/setup',
     views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
+      'tab-setup': {
+        templateUrl: 'templates/tab-setup.html',
+        controller: 'SetupCtrl'
       }
     }
   });
