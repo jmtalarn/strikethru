@@ -15,18 +15,25 @@ $royal:                           #886aea !default;
 $dark:                            #444 !default;
 */
 // The path for our ionicons font files, relative to the built CSS in www/css
-$ionicons-font-path: "../lib/ionic/fonts" !default;
-// Include all of Ionic
+$ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
-
-@mixin background-color($color) {
-  background-color: $color;
-}
 
 h1.title {
   color: $light;
+  font-weight: bold;
 }
 
-.background-positive {
-  @include background-color($positive);
+.item-date {
+  color: $light;
+
+  .icon{
+    font-size: 1em;
+    position: relative;
+    padding-left: 2px;
+    display: inline-block;
+  }
+  .date{
+    position: relative;
+    left: -1em;
+  }
 }

@@ -42,6 +42,43 @@ angular.module('strikehru.controllers', [])
 
   })
   .controller('LivelistCtrl', function($scope) {
+    $scope.todos = [{
+        id: 1,
+        title: "AAAAAAAAAAA",
+        description: " AAAAAAAAAAAAAAAAA",
+        date: new Date()
+      },
+      {
+        id: 1,
+        title: "AAAAAAAAAAA",
+        description: " AAAAAAAAAAAAAAAAA",
+        date: new Date()
+      },
+      {
+        id: 1,
+        title: "AAAAAAAAAAA",
+        description: " AAAAAAAAAAAAAAAAA",
+        date: new Date()
+      },
+      {
+        id: 1,
+        title: "AAAAAAAAAAA",
+        description: " AAAAAAAAAAAAAAAAA",
+        date: new Date()
+      },
+      {
+        id: 1,
+        title: "AAAAAAAAAAA",
+        description: " AAAAAAAAAAAAAAAAA",
+        date: new Date()
+      },
+      {
+        id: 1,
+        title: "AAAAAAAAAAA",
+        description: " AAAAAAAAAAAAAAAAA",
+        date: new Date()
+      },
+    ]
 
   })
   .controller('DumpCtrl', function($scope) {
@@ -65,11 +102,15 @@ angular.module('strikehru.controllers', [])
   .controller('VaultDetailCtrl', function($scope, $stateParams, Vault) {
     $scope.vault = Vault.get($stateParams.vaultId);
   })
-
+  .controller('TodoDetailCtrl', function($scope, $stateParams) {
+    $scope.todo = { id: $stateParams.todoId, title: "Title", description: "Description", date: new Date()}; //Vault.get($stateParams.vaultId);
+  })
   .controller('SetupCtrl', function($scope) {
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
-        $scope.settings = { user: user };
+        $scope.settings = {
+          user: user
+        };
 
       }
     });
