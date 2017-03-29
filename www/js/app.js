@@ -43,35 +43,43 @@ angular.module('strikethru', ['ionic','firebase', 'strikehru.controllers', 'stri
 
   // Each tab has its own nav history stack:
 
-  .state('tab.dash', {
-    url: '/dash',
+  .state('tab.livelist', {
+    url: '/livelist',
     views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
+      'tab-livelist': {
+        templateUrl: 'templates/tab-livelist.html',
         controller: 'DashCtrl'
       }
     }
   })
 
-  .state('tab.chats', {
-      url: '/chats',
+  .state('tab.vault', {
+      url: '/vault',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
+        'tab-vault': {
+          templateUrl: 'templates/tab-vault.html',
           controller: 'ChatsCtrl'
         }
       }
     })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
+    .state('tab.vault-detail', {
+      url: '/vault/:vaultId',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
+        'tab-vault': {
+          templateUrl: 'templates/vault-detail.html',
           controller: 'ChatDetailCtrl'
         }
       }
     })
-
+    .state('tab.dump', {
+      url: '/dump',
+      views: {
+        'tab-dump': {
+          templateUrl: 'templates/tab-dump.html',
+          controller: 'DashCtrl'
+        }
+      }
+    })
   .state('tab.setup', {
     url: '/setup',
     views: {
@@ -83,6 +91,6 @@ angular.module('strikethru', ['ionic','firebase', 'strikehru.controllers', 'stri
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/login');
 
 });

@@ -1,8 +1,20 @@
 <ion-view view-title="Setup">
   <ion-content>
-    <div class="padding" ng-controller="loginCtrl">
-      <button ng-click="logout()" class="button button-block button-assertive icon ion-log-out "> Logout</button>
+    <div class="card">
+      <div class="item item-divider">
+        Current logged in user
+      </div>
+      <div class="item item-avatar">
+        <img ng-src="{{settings.user.photoURL}}">
+        <h2>{{settings.user.displayName}}</h2>
+        <p>({{settings.user.email}})</p>
+      </div>
+      <div class="padding" ng-controller="loginCtrl">
+        <button ng-click="logout()" class="button button-block button-assertive icon ion-log-out "> Logout</button>
+      </div>
     </div>
+
+
 
   </ion-content>
 </ion-view>

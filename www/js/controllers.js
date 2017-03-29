@@ -6,13 +6,12 @@ angular.module('strikehru.controllers', [])
     //Check if user already logged in
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
-
         //Removes back link to login page
         $ionicHistory.nextViewOptions({
           historyRoot: true
         });
 
-        $state.go('tab.dash', {}, {
+        $state.go('tab.livelist', {}, {
           location: "replace"
         });
 
@@ -64,7 +63,10 @@ angular.module('strikehru.controllers', [])
   })
 
   .controller('SetupCtrl', function($scope) {
-    // $scope.settings = {
-    //   enableFriends: true
-    // };
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        $scope.settings = { user: user };
+
+      }
+    });
   });
