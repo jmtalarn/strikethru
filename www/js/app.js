@@ -48,7 +48,7 @@ angular.module('strikethru', ['ionic','firebase', 'strikehru.controllers', 'stri
     views: {
       'tab-livelist': {
         templateUrl: 'templates/tab-livelist.html',
-        controller: 'DashCtrl'
+        controller: 'LivelistCtrl'
       }
     }
   })

@@ -41,7 +41,19 @@ angular.module('strikehru.controllers', [])
 
 
   })
-  .controller('DashCtrl', function($scope) {})
+  .controller('LivelistCtrl', function($scope) {
+
+    $scope.rightButtons = [
+       {
+         type: 'button-add',
+         content: 'Add',
+         tap: function(e) {
+           alert("Added!");
+         }
+       }
+     ]
+
+  })
 
   .controller('ChatsCtrl', function($scope, Chats) {
     // With the new view caching in Ionic, Controllers are only called
