@@ -58,7 +58,7 @@ angular.module('strikethru', ['ionic','firebase', 'strikehru.controllers', 'stri
       views: {
         'tab-vault': {
           templateUrl: 'templates/tab-vault.html',
-          controller: 'ChatsCtrl'
+          controller: 'VaultCtrl'
         }
       }
     })
@@ -67,7 +67,7 @@ angular.module('strikethru', ['ionic','firebase', 'strikehru.controllers', 'stri
       views: {
         'tab-vault': {
           templateUrl: 'templates/vault-detail.html',
-          controller: 'ChatDetailCtrl'
+          controller: 'VaultDetailCtrl'
         }
       }
     })
@@ -76,7 +76,7 @@ angular.module('strikethru', ['ionic','firebase', 'strikehru.controllers', 'stri
       views: {
         'tab-dump': {
           templateUrl: 'templates/tab-dump.html',
-          controller: 'DashCtrl'
+          controller: 'DumpCtrl'
         }
       }
     })

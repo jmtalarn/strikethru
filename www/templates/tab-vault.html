@@ -5,13 +5,18 @@
   </ion-nav-buttons>
   <ion-content>
     <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chat in chats" type="item-text-wrap" href="#/tab/chats/{{chat.id}}">
-        <img ng-src="{{chat.face}}">
-        <h2>{{chat.name}}</h2>
-        <p>{{chat.lastText}}</p>
-        <i class="icon ion-chevron-right icon-accessory"></i>
-
-        <ion-option-button class="button-assertive" ng-click="remove(chat)">
+      <ion-item class="item-remove-animate item-icon-right" ng-repeat="item in vaultItems" type="item-text-wrap" href="#/tab/vault/{{item.id}}">
+        <div class="row">
+          <div class="col col-25">
+            <h1>{{item.label}}</h1>
+          </div>
+          <div class="col col-75">
+            <h2>{{item.name}}</h2>
+            <p>{{item.description}}</p>
+            <i class="icon ion-chevron-right icon-accessory"></i>
+          </div>
+        </div>
+        <ion-option-button class="button-assertive" ng-click="remove(item)">
           Delete
         </ion-option-button>
       </ion-item>

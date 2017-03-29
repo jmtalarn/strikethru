@@ -43,19 +43,11 @@ angular.module('strikehru.controllers', [])
   })
   .controller('LivelistCtrl', function($scope) {
 
-    $scope.rightButtons = [
-       {
-         type: 'button-add',
-         content: 'Add',
-         tap: function(e) {
-           alert("Added!");
-         }
-       }
-     ]
+  })
+  .controller('DumpCtrl', function($scope) {
 
   })
-
-  .controller('ChatsCtrl', function($scope, Chats) {
+  .controller('VaultCtrl', function($scope, Vault) {
     // With the new view caching in Ionic, Controllers are only called
     // when they are recreated or on app start, instead of every page change.
     // To listen for when this page is active (for example, to refresh data),
@@ -64,14 +56,14 @@ angular.module('strikehru.controllers', [])
     //$scope.$on('$ionicView.enter', function(e) {
     //});
 
-    $scope.chats = Chats.all();
-    $scope.remove = function(chat) {
-      Chats.remove(chat);
+    $scope.vaultItems = Vault.all();
+    $scope.remove = function(vault) {
+      Vault.remove(vault);
     };
   })
 
-  .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-    $scope.chat = Chats.get($stateParams.chatId);
+  .controller('VaultDetailCtrl', function($scope, $stateParams, Vault) {
+    $scope.vault = Vault.get($stateParams.vaultId);
   })
 
   .controller('SetupCtrl', function($scope) {
