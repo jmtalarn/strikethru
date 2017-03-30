@@ -63,14 +63,15 @@ angular.module('strikethru.controllers', [])
     };
   })
 
-  .controller('VaultDetailCtrl', function($scope, $stateParams, Vault, Todos) {
+  .controller('VaultDetailCtrl', function($scope, $stateParams, Vault, Todos, $timeout) {
+    var timeout = null;
     $scope.todos = Todos.all();
-    $scope.vault = Vault.get($stateParams.vaultId);
-    $scope.updateInitials = function() {
-      if ($scope.vault.title) {
-        var letters = $scope.vault.title.match(/\b\w/g) || [];
+    $scope.vault = $stateParams.vaultId ? Vault.get($stateParams.vaultId) : {};
+    $scope.generateInitials = function() {
+      if ($scope.vault.name) {
+        var letters = $scope.vault.name.match(/\b\w/g) || [];
         if (letters.length == 1) {
-          $scope.vault.label = $scope.vault.title.substr(0, 2).replace(/\s(.)/g, function($1) {
+          $scope.vault.label = $scope.vault.name.substr(0, 2).replace(/\s(.)/g, function($1) {
             return $1.toUpperCase();
           })
         } else {
@@ -79,6 +80,29 @@ angular.module('strikethru.controllers', [])
       }
 
     }
+    var update = function() {
+      if (!$scope.vault.label || $scope.vault.label.trim()==""){
+        $scope.generateInitials();
+      }
+      if (!Vault.save($scope.vault)){
+        console.error("Error saving Vault category");
+      }
+    };
+
+    $scope.$watch('vault', function(newVal, oldVal) {
+      if (newVal != oldVal) {
+        if (timeout) {
+          $timeout.cancel(timeout)
+        }
+        timeout = $timeout(update, 1000); // 1000 = 1 second
+
+      }
+    }, true);
+
+
+
+
+
   })
   .controller('TodoDetailCtrl', function($scope, $stateParams, Todos) {
     $scope.todo = Todos.get($stateParams.todoId);
