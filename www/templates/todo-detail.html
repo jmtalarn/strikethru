@@ -1,13 +1,18 @@
-<ion-view view-title="{{todo.title}}">
+<ion-view view-title="{{todo.title||'New task'}}">
 
-  <ion-content class="padding">
-    {{todo.id}}
-    <h1> {{todo.title}}</h1>
-    <p>
-      {{todo.description}}
-    </p>
-    <p>
-      {{todo.date}}
-    </p>
+  <ion-content class="">
+    <input type="hidden" name="id" value="{{todo.id}}">
+    <div class="list">
+      <label class="item item-input">
+        <input type="text" placeholder="Task" value="{{todo.title}}">
+      </label>
+      <label class="item item-input">
+        <textarea placeholder="Additional information" value="{{todo.description}}"></textarea>
+      </label>
+      <label class="item item-input">
+        <input type="time" value="{{todo.date}}"
+      </label>
+    </div>
+
   </ion-content>
 </ion-view>
