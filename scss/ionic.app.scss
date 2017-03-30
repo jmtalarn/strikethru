@@ -54,11 +54,13 @@ h1.title {
   }
 }
 
-.todo-form {
+.todo-form,.vault-form {
   .title {
+    * { border: none; } 
     input {
       font-size: 36px;
-      margin-bottom: 10px;
+      padding-bottom: 0.5em;
+      margin:2px 0;
     }
   }
 

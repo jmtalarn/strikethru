@@ -9839,16 +9839,20 @@ h1.title {
   font-size: 0.5em;
   margin: 0 auto; }
 
-.todo-form .title input {
-  font-size: 36px;
-  margin-bottom: 10px; }
-
-.todo-form .description textarea {
-  height: 8em; }
-
-.todo-form .duedate * {
+.todo-form .title *, .vault-form .title * {
   border: none; }
 
-.todo-form .duedate label {
+.todo-form .title input, .vault-form .title input {
+  font-size: 36px;
+  padding-bottom: 0.5em;
+  margin: 2px 0; }
+
+.todo-form .description textarea, .vault-form .description textarea {
+  height: 8em; }
+
+.todo-form .duedate *, .vault-form .duedate * {
+  border: none; }
+
+.todo-form .duedate label, .vault-form .duedate label {
   font-weight: bold;
   font-size: 0.8em; }

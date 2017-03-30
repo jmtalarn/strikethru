@@ -4,14 +4,28 @@
   The FriendsCtrl pulls data from the Friends service (service.js)
   The Friends service returns an array of friend data
 -->
-<ion-view view-title="{{vault.name}}">
-  <ion-content class="">
-    <div class="padding">
-      <h1> {{vault.label}}</h1>
+<ion-view view-title="{{vault.name ||'New vault category'}}">
+  <ion-content class="vault-form">
 
-      <p read-more text="vault.description" limit="125"></p>
+    <input type="hidden" name="id" value="{{vault.id}}">
+    <div class="list">
+      <div class="row title">
+      <label class="col col-75 item item-input ">
+        <input type="text" placeholder="Vault category" value="{{vault.title}}">
+      </label>
+      <label class="col col-25 item item-input title">
+        <input type="text" value="{{vault.initials}}">
+      </label>
     </div>
+      <label class="item item-input description">
+        <textarea placeholder="Additional information" ng-model="vault.description"></textarea>
+      </label>
+    </div>
+
+
     <todo-list items="todos"></todo-list>
 
   </ion-content>
+
+
 </ion-view>
