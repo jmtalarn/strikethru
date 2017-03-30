@@ -2,6 +2,10 @@ angular.module('strikethru.directives', [])
   .directive('todoList', function() {
     return {
       restrict: 'E',
+      scope:{
+        currentList: '@',
+        todos: '=items'
+      },
       templateUrl: 'templates/todo-list.html',
       link: function($scope, $element, $attrs) {
         $scope.baseHref = location.hash;
@@ -9,6 +13,9 @@ angular.module('strikethru.directives', [])
       controller: function($scope) {
           $scope.onSwipeRight = function(){
             alert("Swipe!!")
+          }
+          $scope.hideButton = function(button){
+            return (button==$scope.currentList);
           }
       }
     }
