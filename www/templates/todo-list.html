@@ -1,5 +1,9 @@
 <ion-list>
-  <ion-item class="item-remove-animate item-icon-right todo-item" ng-repeat="todo in todos" type="item-text-wrap" ng-href="{{baseHref}}/todo/{{todo.id}}">
+  <ion-item
+  class="item-remove-animate item-icon-right todo-item"
+  ng-repeat="todo in todos" type="item-text-wrap"
+  ng-href="{{baseHref}}/todo/{{todo.id}}"
+  on-swipe-right="onSwipeRight()">
 
     <h2>{{todo.title}}</h2>
     <p>{{todo.description}}</p>

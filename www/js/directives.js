@@ -5,6 +5,11 @@ angular.module('strikethru.directives', [])
       templateUrl: 'templates/todo-list.html',
       link: function($scope, $element, $attrs) {
         $scope.baseHref = location.hash;
+      },
+      controller: function($scope) {
+          $scope.onSwipeRight = function(){
+            alert("Swipe!!")
+          }
       }
     }
   })

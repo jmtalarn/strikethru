@@ -6,10 +6,11 @@
 -->
 <ion-view view-title="{{vault.name}}">
   <ion-content class="">
-    <h1> {{vault.label}}</h1>
+    <div class="padding">
+      <h1> {{vault.label}}</h1>
 
-    <p read-more text="vault.description" limit="125"></p>
-
+      <p read-more text="vault.description" limit="125"></p>
+    </div>
     <todo-list items="todos"></todo-list>
 
   </ion-content>
