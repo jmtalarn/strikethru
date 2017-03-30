@@ -66,13 +66,22 @@ angular.module('strikethru.controllers', [])
   .controller('VaultDetailCtrl', function($scope, $stateParams, Vault, Todos) {
     $scope.todos = Todos.all();
     $scope.vault = Vault.get($stateParams.vaultId);
-    $scope.updateInitials = function($scope){
-      $scope.initials = $scope.title.match(/\b\w/g) || [];
-      $scope.initials = (($scope.initials.shift() || '') + ($scope.initials.pop() || '')).toUpperCase();
+    $scope.updateInitials = function() {
+      if ($scope.vault.title) {
+        var letters = $scope.vault.title.match(/\b\w/g) || [];
+        if (letters.length == 1) {
+          $scope.vault.label = $scope.vault.title.substr(0, 2).replace(/\s(.)/g, function($1) {
+            return $1.toUpperCase();
+          })
+        } else {
+          $scope.vault.label = letters.join("").substr(0, 4).toUpperCase();
+        }
+      }
+
     }
   })
   .controller('TodoDetailCtrl', function($scope, $stateParams, Todos) {
-    $scope.todo = Todos.get( $stateParams.todoId );
+    $scope.todo = Todos.get($stateParams.todoId);
   })
   .controller('SetupCtrl', function($scope) {
     firebase.auth().onAuthStateChanged(function(user) {

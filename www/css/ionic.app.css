@@ -9843,9 +9843,12 @@ h1.title {
   border: none; }
 
 .todo-form .title input, .vault-form .title input {
-  font-size: 36px;
+  font-size: 20px;
   padding-bottom: 0.5em;
   margin: 2px 0; }
+
+.todo-form .initials, .vault-form .initials {
+  font-size: 36px; }
 
 .todo-form .description textarea, .vault-form .description textarea {
   height: 8em; }

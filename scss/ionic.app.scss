@@ -56,14 +56,16 @@ h1.title {
 
 .todo-form,.vault-form {
   .title {
-    * { border: none; } 
+    * { border: none; }
     input {
-      font-size: 36px;
+      font-size: 20px;
       padding-bottom: 0.5em;
       margin:2px 0;
     }
   }
-
+  .initials{
+    font-size: 36px;
+  }
   .description {
     textarea {
       height: 8em;
