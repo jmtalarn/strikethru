@@ -9838,3 +9838,7 @@ h1.title {
   display: block;
   font-size: 0.5em;
   margin: 0 auto; }
+
+.todo-form .title input {
+  font-size: 36px;
+  margin-bottom: 10px; }
