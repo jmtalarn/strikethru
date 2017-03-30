@@ -9,8 +9,8 @@
       <label class="item item-input">
         <textarea placeholder="Additional information" value="{{todo.description}}"></textarea>
       </label>
-      <label class="item item-input">
-        <input type="time" value="{{todo.date}}"
+      <label class="item item-input" ion-datetime-picker ng-model="todo.date">
+         {{todo.date |date: "dd-MM-yyyy H:mm"}}
       </label>
     </div>
 
