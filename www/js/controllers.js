@@ -63,7 +63,8 @@ angular.module('strikethru.controllers', [])
     };
   })
 
-  .controller('VaultDetailCtrl', function($scope, $stateParams, Vault) {
+  .controller('VaultDetailCtrl', function($scope, $stateParams, Vault, Todos) {
+    $scope.todos = Todos.all();
     $scope.vault = Vault.get($stateParams.vaultId);
   })
   .controller('TodoDetailCtrl', function($scope, $stateParams) {

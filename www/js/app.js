@@ -71,6 +71,15 @@ angular.module('strikethru', ['ionic', 'firebase', 'strikethru.controllers', 'st
           }
         }
       })
+      .state('tab.vault-todo-detail', {
+        url: '/vault/:vaultId/todo/:todoId',
+        views: {
+          'tab-vault': {
+            templateUrl: 'templates/todo-detail.html',
+            controller: 'TodoDetailCtrl'
+          }
+        }
+      })
       .state('tab.livelist-detail', {
         url: '/livelist/todo/:todoId',
         views: {

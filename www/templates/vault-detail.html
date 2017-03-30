@@ -5,10 +5,12 @@
   The Friends service returns an array of friend data
 -->
 <ion-view view-title="{{vault.name}}">
-  <ion-content class="padding">
+  <ion-content class="">
     <h1> {{vault.label}}</h1>
-    <p read-more text="vault.description" limit="125">
-    </p>
+
+    <p read-more text="vault.description" limit="125"></p>
+
+    <todo-list items="todos"></todo-list>
 
   </ion-content>
 </ion-view>
