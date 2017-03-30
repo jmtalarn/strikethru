@@ -1,4 +1,4 @@
-angular.module('strikehru.controllers', [])
+angular.module('strikethru.controllers', [])
   /*
       ionicSideMenuDelegate : used to access the slidable functionality of the menu drawer
   */
@@ -41,48 +41,12 @@ angular.module('strikehru.controllers', [])
 
 
   })
-  .controller('LivelistCtrl', function($scope) {
-    $scope.todos = [{
-        id: 1,
-        title: "AAAAAAAAAAA",
-        description: " AAAAAAAAAAAAAAAAA",
-        date: new Date()
-      },
-      {
-        id: 1,
-        title: "AAAAAAAAAAA",
-        description: " AAAAAAAAAAAAAAAAA",
-        date: new Date()
-      },
-      {
-        id: 1,
-        title: "AAAAAAAAAAA",
-        description: " AAAAAAAAAAAAAAAAA",
-        date: new Date()
-      },
-      {
-        id: 1,
-        title: "AAAAAAAAAAA",
-        description: " AAAAAAAAAAAAAAAAA",
-        date: new Date()
-      },
-      {
-        id: 1,
-        title: "AAAAAAAAAAA",
-        description: " AAAAAAAAAAAAAAAAA",
-        date: new Date()
-      },
-      {
-        id: 1,
-        title: "AAAAAAAAAAA",
-        description: " AAAAAAAAAAAAAAAAA",
-        date: new Date()
-      },
-    ]
+  .controller('LivelistCtrl', function($scope, Todos) {
+    $scope.todos = Todos.all();
 
   })
-  .controller('DumpCtrl', function($scope) {
-
+  .controller('DumpCtrl', function($scope, Todos) {
+    $scope.todos = Todos.all();
   })
   .controller('VaultCtrl', function($scope, Vault) {
     // With the new view caching in Ionic, Controllers are only called

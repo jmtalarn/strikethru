@@ -5,27 +5,6 @@
   </ion-nav-buttons>
 
   <ion-content class="">
-
-    <ion-list>
-      <ion-item class="item-remove-animate item-icon-right" ng-repeat="todo in todos" type="item-text-wrap" href="#/tab/listview/todo/{{todoId}}">
-
-        <h2>{{todo.title}}</h2>
-        <p>{{todo.description}}</p>
-        <p class="item-date">
-          <i class="icon ion-android-time"></i>
-          <span class="date">
-              {{ todo.date | date:'dd/MM/yy'}}
-              {{ todo.date | date:'HH:mm'}}
-          </span>
-        </p>
-
-        <i class="icon ion-chevron-right icon-accessory"></i>
-
-        <ion-option-button class="button-assertive" ng-click="remove(item)">
-          Delete
-        </ion-option-button>
-      </ion-item>
-    </ion-list>
-
+    <todo-list items="todos"></todo-list>
   </ion-content>
 </ion-view>

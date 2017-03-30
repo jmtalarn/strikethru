@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('strikethru', ['ionic', 'firebase', 'strikehru.controllers', 'strikehru.services'])
+angular.module('strikethru', ['ionic', 'firebase', 'strikethru.controllers', 'strikethru.services', 'strikethru.directives'])
   .constant('FIREBASE_ROOT', 'https://strikethru-b4a44.firebaseio.com')
   .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -71,8 +71,8 @@ angular.module('strikethru', ['ionic', 'firebase', 'strikehru.controllers', 'str
           }
         }
       })
-      .state('tab.listview-detail', {
-        url: '/listview/todo/:todoId',
+      .state('tab.livelist-detail', {
+        url: '/livelist/todo/:todoId',
         views: {
           'tab-livelist': {
             templateUrl: 'templates/todo-detail.html',

@@ -1,4 +1,61 @@
-angular.module('strikehru.services', [])
+angular.module('strikethru.services', [])
+.factory('Todos', function() {
+
+  var todos = [{
+      id: 1,
+      title: "AAAAAAAAAAA",
+      description: " AAAAAAAAAAAAAAAAA",
+      date: new Date()
+    },
+    {
+      id: 1,
+      title: "AAAAAAAAAAA",
+      description: " AAAAAAAAAAAAAAAAA",
+      date: new Date()
+    },
+    {
+      id: 1,
+      title: "AAAAAAAAAAA",
+      description: " AAAAAAAAAAAAAAAAA",
+      date: new Date()
+    },
+    {
+      id: 1,
+      title: "AAAAAAAAAAA",
+      description: " AAAAAAAAAAAAAAAAA",
+      date: new Date()
+    },
+    {
+      id: 1,
+      title: "AAAAAAAAAAA",
+      description: " AAAAAAAAAAAAAAAAA",
+      date: new Date()
+    },
+    {
+      id: 1,
+      title: "AAAAAAAAAAA",
+      description: " AAAAAAAAAAAAAAAAA",
+      date: new Date()
+    },
+  ];
+
+  return {
+    all: function() {
+      return todos;
+    },
+    remove: function(todo) {
+      todos.splice(todos.indexOf(todo), 1);
+    },
+    get: function(todoId) {
+      for (var i = 0; i < todos.length; i++) {
+        if (todos[i].id === parseInt(todoId)) {
+          return todos[i];
+        }
+      }
+      return null;
+    }
+  };
+})
 .factory('Vault', function() {
   // Might use a resource here that returns a JSON array
 
