@@ -67,8 +67,8 @@ angular.module('strikethru.controllers', [])
     $scope.todos = Todos.all();
     $scope.vault = Vault.get($stateParams.vaultId);
   })
-  .controller('TodoDetailCtrl', function($scope, $stateParams) {
-    $scope.todo = { id: $stateParams.todoId, title: "Title", description: "Description", date: new Date()}; //Vault.get($stateParams.vaultId);
+  .controller('TodoDetailCtrl', function($scope, $stateParams, Todos) {
+    $scope.todo = Todos.get( $stateParams.todoId );
   })
   .controller('SetupCtrl', function($scope) {
     firebase.auth().onAuthStateChanged(function(user) {

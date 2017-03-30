@@ -6,12 +6,15 @@
       <label class="item item-input title">
         <input type="text" placeholder="Task" value="{{todo.title}}">
       </label>
-      <label class="item item-input">
-        <textarea placeholder="Additional information" value="{{todo.description}}"></textarea>
+      <label class="item item-input description">
+        <textarea placeholder="Additional information" ng-model="todo.description"></textarea>
       </label>
-      <label class="item item-input" ion-datetime-picker ng-model="todo.date">
-         {{todo.date |date: "dd-MM-yyyy H:mm"}}
-      </label>
+      <div class="row duedate">
+        <label class="col col-25 item item-input">Due date</label>
+        <div class="item col col-75" ion-datetime-picker ng-model="todo.date">
+          {{todo.date |date: "dd-MM-yyyy H:mm"}}
+        </div>
+      </div>
     </div>
 
   </ion-content>
