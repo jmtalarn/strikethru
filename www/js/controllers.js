@@ -66,6 +66,10 @@ angular.module('strikethru.controllers', [])
   .controller('VaultDetailCtrl', function($scope, $stateParams, Vault, Todos) {
     $scope.todos = Todos.all();
     $scope.vault = Vault.get($stateParams.vaultId);
+    $scope.updateInitials = function($scope){
+      $scope.initials = $scope.title.match(/\b\w/g) || [];
+      $scope.initials = (($scope.initials.shift() || '') + ($scope.initials.pop() || '')).toUpperCase();
+    }
   })
   .controller('TodoDetailCtrl', function($scope, $stateParams, Todos) {
     $scope.todo = Todos.get( $stateParams.todoId );

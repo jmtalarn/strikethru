@@ -11,7 +11,7 @@
     <div class="list">
       <div class="row title">
       <label class="col col-75 item item-input ">
-        <input type="text" placeholder="Vault category" value="{{vault.title}}">
+        <input type="text" placeholder="Vault category"  ng-change="updateInitials()" ng-model="vault.title">
       </label>
       <label class="col col-25 item item-input title">
         <input type="text" value="{{vault.initials}}">
