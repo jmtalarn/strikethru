@@ -1,7 +1,7 @@
 <ion-view view-title="The dump">
   <ion-nav-buttons side="right" ng-show="true">
-    <button class="button button-icon button-clear ion-plus-round">
-    </button>
+    <a class="button button-icon button-clear ion-plus-round" ui-sref="tab.dump-detail({todoId:null})"></a>
+  </ion-nav-buttons>
   </ion-nav-buttons>
   <ion-content class="">
     <todo-list items="todos" current-list="dump"></todo-list>

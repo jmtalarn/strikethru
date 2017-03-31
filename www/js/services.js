@@ -103,7 +103,7 @@ angular.module('strikethru.services', [])
           }
         }else{
           var maxId = todos.reduce(function (p, v) {
-            return ( p > v ? p : v );
+            return ( p.id > v.id ? p.id : v.id );
           });
           todo.id = maxId + 1;
           todos.push(todo);

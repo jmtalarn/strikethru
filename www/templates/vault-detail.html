@@ -1,10 +1,7 @@
-<!--
-  This template loads for the 'tab.friend-detail' state (app.js)
-  'friend' is a $scope variable created in the FriendsCtrl controller (controllers.js)
-  The FriendsCtrl pulls data from the Friends service (service.js)
-  The Friends service returns an array of friend data
--->
 <ion-view view-title="{{vault.name ||'New vault category'}}">
+  <ion-nav-buttons side="right" ng-show="true">
+    <a class="button button-icon button-clear ion-plus-round" ui-sref="tab.vault-todo-detail({todoId:null})"></a>
+  </ion-nav-buttons>
   <ion-content class="vault-form">
 
     <input type="hidden" name="id" value="{{vault.id}}">

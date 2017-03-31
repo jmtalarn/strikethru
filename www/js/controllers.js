@@ -106,7 +106,7 @@ angular.module('strikethru.controllers', [])
   })
   .controller('TodoDetailCtrl', function($scope, $stateParams, Todos, $timeout) {
     var timeout = null;
-    $scope.todo = Todos.get($stateParams.todoId);
+    $scope.todo = $stateParams.todoId ? Todos.get($stateParams.todoId) : {};
     var update = function() {
       if (!Todos.save($scope.todo)){
         console.error("Error saving Todos category");
