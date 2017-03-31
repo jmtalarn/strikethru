@@ -159,7 +159,7 @@ angular.module('strikethru.services', [])
           }
         }else{
           var maxId = vaultItems.reduce(function (p, v) {
-            return ( p > v ? p : v );
+            return ( p.id > v.id ? p.id : v.id );
           });
           vault.id = maxId + 1;
           vaultItems.push(vault);
