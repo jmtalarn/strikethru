@@ -41,11 +41,11 @@ angular.module('strikethru.controllers', [])
 
 
   })
-  .controller('LivelistCtrl', function($scope,Todos) {
-      $scope.todos = Todos.list();
+  .controller('LivelistCtrl', function($scope, Todos) {
+    $scope.todos = Todos.list();
   })
   .controller('DumpCtrl', function($scope, Todos) {
-      $scope.todos = Todos.list();
+    $scope.todos = Todos.list();
   })
   .controller('VaultCtrl', function($scope, Vault) {
     // With the new view caching in Ionic, Controllers are only called
@@ -81,14 +81,13 @@ angular.module('strikethru.controllers', [])
 
     }
     var update = function() {
-      if (!$scope.vault.label || $scope.vault.label.trim()==""){
+      if (!$scope.vault.label || $scope.vault.label.trim() == "") {
         $scope.generateInitials();
       }
-      if (!Vault.save($scope.vault)){
+      if (!Vault.save($scope.vault)) {
         console.error("Error saving Vault category");
       }
     };
-
     $scope.$watch('vault', function(newVal, oldVal) {
       if (newVal != oldVal) {
         if (timeout) {
@@ -98,26 +97,21 @@ angular.module('strikethru.controllers', [])
 
       }
     }, true);
-
-
-
-
-
   })
-  .controller('TodoDetailCtrl', function($scope, $stateParams, Todos, $timeout,CurrentListService) {
+  .controller('TodoDetailCtrl', function($scope, $stateParams, Todos, $timeout, CurrentListService) {
     var timeout = null;
     $scope.todo = $stateParams.todoId ? Todos.get($stateParams.todoId) : {};
     var update = function() {
       var state = CurrentListService.get();
       $scope.todo.list = {};
-      $scope.todo.list[state.list]=state.id?state.id:true;
+      $scope.todo.list[state.list] = state.id ? state.id : true;
 
-      if (!Todos.save($scope.todo)){
+      if (!Todos.save($scope.todo)) {
         console.error("Error saving Todos category");
       }
     };
-    $scope.hideButton = function(button){
-      return (button==CurrentListService.get().list);
+    $scope.hideButton = function(button) {
+      return (button == CurrentListService.get().list);
     }
     $scope.$watch('todo', function(newVal, oldVal) {
       if (newVal != oldVal) {
