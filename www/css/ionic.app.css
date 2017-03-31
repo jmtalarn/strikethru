@@ -9830,6 +9830,9 @@ h1.title {
     position: relative;
     left: -1em; }
 
+.todo-item.done * {
+  text-decoration: line-through; }
+
 .todo-item .item-options .icon {
   display: block;
   left: 20%; }

@@ -40,6 +40,10 @@ h1.title {
 }
 
 .todo-item {
+  &.done{
+    *{  text-decoration: line-through; }
+
+  }
   .item-options {
     .icon {
       display: block;

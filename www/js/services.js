@@ -5,55 +5,64 @@ angular.module('strikethru.services', [])
         "id": 1,
         "title": "vitae",
         "description": "diam dictum sapien. Aenean massa. Integer vitae nibh. Donec est mauris, rhoncus id, mollis nec, cursus a, enim. Suspendisse aliquet, sem ut cursus luctus, ipsum leo elementum sem, vitae aliquam eros turpis non enim. Mauris quis turpis vitae purus gravida sagittis. Duis gravida. Praesent eu",
-        "date": new Date(2018, 03, 06)
+        "date": new Date(2018, 03, 06),
+        "done":false
       },
       {
         "id": 2,
         "title": "interdum feugiat. Sed nec metus",
         "description": "enim. Etiam imperdiet dictum magna. Ut tincidunt orci quis lectus. Nullam suscipit, est ac",
-        "date": new Date(2017, 09, 06)
+        "date": new Date(2017, 09, 06),
+        "done": true
       },
       {
         "id": 3,
         "title": "vehicula et, rutrum eu, ultrices",
         "description": "ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur",
-        "date": new Date(2017, 07, 14)
+        "date": new Date(2017, 07, 14),
+        "done": true
       },
       {
         "id": 4,
         "title": "Nullam suscipit,",
         "description": "lorem lorem, luctus ut, pellentesque eget, dictum placerat, augue. Sed molestie. Sed id risus quis",
-        "date": new Date(2017, 07, 02)
+        "date": new Date(2017, 07, 02),
+        "done":false
       },
       {
         "id": 5,
         "title": "odio",
         "description": "a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu",
-        "date": new Date(2016, 07, 26)
+        "date": new Date(2016, 07, 26),
+        "done":false
       },
       {
         "id": 6,
         "title": "sagittis. Nullam vitae diam. Proin",
         "description": "Mauris blandit enim consequat purus. Maecenas libero est, congue a, aliquet vel, vulputate eu, odio. Phasellus at augue id ante dictum cursus.",
-        "date": new Date(2017, 02, 13)
+        "date": new Date(2017, 02, 13),
+        "done":false
       },
       {
         "id": 7,
         "title": "arcu eu odio tristique pharetra.",
         "description": "scelerisque neque. Nullam nisl. Maecenas malesuada fringilla est. Mauris eu turpis. Nulla aliquet. Proin velit. Sed malesuada augue ut lacus. Nulla tincidunt, neque vitae semper egestas, urna justo faucibus lectus, a sollicitudin orci sem eget massa. Suspendisse eleifend. Cras sed",
-        "date": new Date(2017, 11, 05)
+        "date": new Date(2017, 11, 05),
+        "done":false
       },
       {
         "id": 8,
         "title": "ultrices. Vivamus rhoncus. Donec est. Nunc",
         "description": "nec, mollis vitae, posuere at, velit. Cras lorem lorem, luctus ut, pellentesque eget, dictum placerat, augue. Sed molestie. Sed id risus quis diam luctus lobortis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Mauris",
-        "date": new Date(2016, 04, 13)
+        "date": new Date(2016, 04, 13),
+        "done":true
       },
       {
         "id": 9,
         "title": "ligula tortor, dictum eu, placerat",
         "description": "vel, venenatis vel, faucibus id, libero. Donec consectetuer mauris id sapien. Cras dolor dolor, tempus",
-        "date": new Date(2018, 01, 09)
+        "date": new Date(2018, 01, 09),
+        "done":true
       },
       {
         "id": 10,

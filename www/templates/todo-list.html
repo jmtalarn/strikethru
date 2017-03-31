@@ -2,6 +2,7 @@
   <ion-item
   class="item-remove-animate item-icon-right todo-item"
   ng-repeat="todo in todos" type="item-text-wrap"
+  ng-class="{'done' : todo.done}"
   ng-href="{{baseHref}}/todo/{{todo.id}}"
   on-swipe-right="onSwipeRight()">
 
