@@ -10,9 +10,12 @@ angular.module('strikethru.directives', [])
       link: function($scope, $element, $attrs) {
         $scope.baseHref = location.hash;
       },
-      controller: function($scope) {
-          $scope.onSwipeRight = function(){
-            alert("Swipe!!")
+      controller: function($scope,Todos) {
+          $scope.onSwipeRight = function(todoId){
+            var todo = Todos.get(todoId);
+            todo.done=true;
+            Todos.save(todo);
+
           }
           $scope.hideButton = function(button){
             return (button==$scope.currentList);
