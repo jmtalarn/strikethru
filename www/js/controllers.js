@@ -109,8 +109,8 @@ angular.module('strikethru.controllers', [])
     $scope.todo = $stateParams.todoId ? Todos.get($stateParams.todoId) : {};
     var update = function() {
       var state = CurrentListService.get();
-      todo.list = {};
-      todo.list[state.list]=state.id?state.id:true;
+      $scope.todo.list = {};
+      $scope.todo.list[state.list]=state.id?state.id:true;
 
       if (!Todos.save($scope.todo)){
         console.error("Error saving Todos category");

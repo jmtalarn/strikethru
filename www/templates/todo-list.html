@@ -10,6 +10,7 @@
     <p>{{todo.description}}</p>
     <p class="item-date">
       <i class="icon ion-android-time"></i>
+      <span class="no-duedate" ng-hide="todo.date">Not due date defined</span>
       <span class="date">
           {{ todo.date | date:'dd/MM/yy'}}
           {{ todo.date | date:'HH:mm'}}

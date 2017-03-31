@@ -9833,6 +9833,12 @@ h1.title {
 .todo-item.done *:not(.icon) {
   text-decoration: line-through; }
 
+.todo-item .no-duedate {
+  font-style: oblique;
+  font-size: 0.8em;
+  left: -1em;
+  position: relative; }
+
 .todo-item .item-options .icon {
   display: block;
   left: 20%; }
@@ -9856,9 +9862,12 @@ h1.title {
 .todo-form .description textarea, .vault-form .description textarea {
   height: 8em; }
 
-.todo-form .duedate *, .vault-form .duedate * {
-  border: none; }
+.todo-form .duedate, .vault-form .duedate {
+  padding-left: 1em; }
+  .todo-form .duedate *, .vault-form .duedate * {
+    border: none; }
 
-.todo-form .duedate label, .vault-form .duedate label {
-  font-weight: bold;
-  font-size: 0.8em; }
+.todo-form .done, .vault-form .done {
+  padding-left: 0em; }
+  .todo-form .done .item-checkbox, .vault-form .done .item-checkbox {
+    border: none; }

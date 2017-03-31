@@ -20,7 +20,6 @@ angular.module('strikethru.services', [])
         "id": 1,
         "title": "vitae",
         "description": "diam dictum sapien. Aenean massa. Integer vitae nibh. Donec est mauris, rhoncus id, mollis nec, cursus a, enim. Suspendisse aliquet, sem ut cursus luctus, ipsum leo elementum sem, vitae aliquam eros turpis non enim. Mauris quis turpis vitae purus gravida sagittis. Duis gravida. Praesent eu",
-        "date": new Date(2018, 03, 06),
         "list": {
           "livelist": true
         },

@@ -12,9 +12,12 @@
       <div class="row duedate">
         <label class="col col-25 item item-input">Due date</label>
         <div class="item col col-75" ion-datetime-picker ng-model="todo.date">
-          {{todo.date |date: "dd-MM-yyyy H:mm"}}
+          {{ (todo.date |date: "dd-MM-yyyy H:mm") || "No due date defined" }}
         </div>
       </div>
+      <label class="item item-input done">
+        <ion-checkbox ng-model="todo.done">Task done</ion-checkbox>
+      </label>
     </div>
 
   </ion-content>
