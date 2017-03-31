@@ -1,10 +1,10 @@
 <ion-view view-title="{{todo.title||'New task'}}">
 
   <ion-content class="todo-form">
-    <input type="hidden" name="id" value="{{todo.id}}">
+    <input type="hidden" name="id" ng-model="todo.id">
     <div class="list">
       <label class="item item-input title">
-        <input type="text" placeholder="Task" value="{{todo.title}}">
+        <input type="text" placeholder="Task" ng-model="todo.title">
       </label>
       <label class="item item-input description">
         <textarea placeholder="Additional information" ng-model="todo.description"></textarea>

@@ -104,8 +104,24 @@ angular.module('strikethru.controllers', [])
 
 
   })
-  .controller('TodoDetailCtrl', function($scope, $stateParams, Todos) {
+  .controller('TodoDetailCtrl', function($scope, $stateParams, Todos, $timeout) {
+    var timeout = null;
     $scope.todo = Todos.get($stateParams.todoId);
+    var update = function() {
+      if (!Todos.save($scope.todo)){
+        console.error("Error saving Todos category");
+      }
+    };
+
+    $scope.$watch('todo', function(newVal, oldVal) {
+      if (newVal != oldVal) {
+        if (timeout) {
+          $timeout.cancel(timeout)
+        }
+        timeout = $timeout(update, 1000); // 1000 = 1 second
+
+      }
+    }, true);
   })
   .controller('SetupCtrl', function($scope) {
     firebase.auth().onAuthStateChanged(function(user) {

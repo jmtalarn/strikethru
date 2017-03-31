@@ -83,6 +83,24 @@ angular.module('strikethru.services', [])
           }
         }
         return null;
+      },
+      save: function(todo){
+        if (todo.id){
+          for (var i = 0; i < todos.length; i++) {
+            if (todos[i].id === parseInt(todo.id)) {
+              todos[i]=todo;
+              return true;
+            }
+          }
+        }else{
+          var maxId = todos.reduce(function (p, v) {
+            return ( p > v ? p : v );
+          });
+          todo.id = maxId + 1;
+          todos.push(todo);
+          return true
+        }
+        return false;
       }
     };
   })
