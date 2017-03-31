@@ -1,18 +1,39 @@
 angular.module('strikethru.services', [])
-  .factory('Todos', function() {
+  .service('CurrentListService', function($state) {
+    return {
+      get: function() {
+        if ($state.includes('tab.livelist')) {
+          return { list : 'livelist' }
+        } else if ($state.includes('tab.dump')) {
+          return { list : 'dump' }
+        } else if ($state.includes('tab.vault-detail')) {
+          return { list : 'vault', id: $state.params.vaultId }
+        } else {
+          return {}
+        };
+      }
+    }
+  })
+  .factory('Todos', function(CurrentListService) {
 
     var todos = [{
         "id": 1,
         "title": "vitae",
         "description": "diam dictum sapien. Aenean massa. Integer vitae nibh. Donec est mauris, rhoncus id, mollis nec, cursus a, enim. Suspendisse aliquet, sem ut cursus luctus, ipsum leo elementum sem, vitae aliquam eros turpis non enim. Mauris quis turpis vitae purus gravida sagittis. Duis gravida. Praesent eu",
         "date": new Date(2018, 03, 06),
-        "done":false
+        "list": {
+          "livelist": true
+        },
+        "done": false
       },
       {
         "id": 2,
         "title": "interdum feugiat. Sed nec metus",
         "description": "enim. Etiam imperdiet dictum magna. Ut tincidunt orci quis lectus. Nullam suscipit, est ac",
         "date": new Date(2017, 09, 06),
+        "list": {
+          "dump": true
+        },
         "done": true
       },
       {
@@ -20,6 +41,9 @@ angular.module('strikethru.services', [])
         "title": "vehicula et, rutrum eu, ultrices",
         "description": "ornare placerat, orci lacus vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur",
         "date": new Date(2017, 07, 14),
+        "list": {
+          "vault": 2
+        },
         "done": true
       },
       {
@@ -27,58 +51,95 @@ angular.module('strikethru.services', [])
         "title": "Nullam suscipit,",
         "description": "lorem lorem, luctus ut, pellentesque eget, dictum placerat, augue. Sed molestie. Sed id risus quis",
         "date": new Date(2017, 07, 02),
-        "done":false
+        "list": {
+          "vault": 2
+        },
+        "done": false
       },
       {
         "id": 5,
         "title": "odio",
         "description": "a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu",
         "date": new Date(2016, 07, 26),
-        "done":false
+        "list": {
+          "dump": true
+        },
+        "done": false
       },
       {
         "id": 6,
         "title": "sagittis. Nullam vitae diam. Proin",
         "description": "Mauris blandit enim consequat purus. Maecenas libero est, congue a, aliquet vel, vulputate eu, odio. Phasellus at augue id ante dictum cursus.",
         "date": new Date(2017, 02, 13),
-        "done":false
+        "list": {
+          "livelist": true
+        },
+        "done": false
       },
       {
         "id": 7,
         "title": "arcu eu odio tristique pharetra.",
         "description": "scelerisque neque. Nullam nisl. Maecenas malesuada fringilla est. Mauris eu turpis. Nulla aliquet. Proin velit. Sed malesuada augue ut lacus. Nulla tincidunt, neque vitae semper egestas, urna justo faucibus lectus, a sollicitudin orci sem eget massa. Suspendisse eleifend. Cras sed",
         "date": new Date(2017, 11, 05),
-        "done":false
+        "list": {
+          "livelist": true
+        },
+        "done": false
       },
       {
         "id": 8,
         "title": "ultrices. Vivamus rhoncus. Donec est. Nunc",
         "description": "nec, mollis vitae, posuere at, velit. Cras lorem lorem, luctus ut, pellentesque eget, dictum placerat, augue. Sed molestie. Sed id risus quis diam luctus lobortis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Mauris",
         "date": new Date(2016, 04, 13),
-        "done":true
+        "list": {
+          "vault": 2
+        },
+        "done": true
       },
       {
         "id": 9,
         "title": "ligula tortor, dictum eu, placerat",
         "description": "vel, venenatis vel, faucibus id, libero. Donec consectetuer mauris id sapien. Cras dolor dolor, tempus",
         "date": new Date(2018, 01, 09),
-        "done":true
+        "list": {
+          "vault": 1
+        },
+        "done": true
       },
       {
         "id": 10,
         "title": "malesuada fames ac turpis egestas.",
         "description": "lobortis augue scelerisque mollis. Phasellus libero mauris, aliquam eu, accumsan sed, facilisis vitae, orci. Phasellus dapibus quam quis diam. Pellentesque",
-        "date": new Date(2017, 04, 21)
+        "date": new Date(2017, 04, 21),
+        "list": {
+          "vault": 1
+        },
+        "done": true
       },
       {
         "id": 11,
         "title": "ligula eu enim. Etiam imperdiet",
         "description": "Curae; Donec tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor, nunc nulla vulputate dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin",
-        "date": new Date(2016, 08, 02)
+        "date": new Date(2016, 08, 02),
+        "list": {
+          "livelist": true
+        },
+        "done": true
       },
     ];
 
     return {
+      list: function() {
+        var state = CurrentListService.get();
+
+        return todos.filter(function(element) {
+          if (state.list!='vault'){
+            return (state.list in element.list)
+          }else{
+            return ((state.list in element.list) && (element.list[state.list]==state.id) )
+          }
+        })
+      },
       all: function() {
         return todos;
       },
@@ -93,17 +154,17 @@ angular.module('strikethru.services', [])
         }
         return null;
       },
-      save: function(todo){
-        if (todo.id){
+      save: function(todo) {
+        if (todo.id) {
           for (var i = 0; i < todos.length; i++) {
             if (todos[i].id === parseInt(todo.id)) {
-              todos[i]=todo;
+              todos[i] = todo;
               return true;
             }
           }
-        }else{
-          var maxId = todos.reduce(function (p, v) {
-            return ( p.id > v.id ? p.id : v.id );
+        } else {
+          var maxId = todos.reduce(function(p, v) {
+            return (p.id > v.id ? p.id : v.id);
           });
           todo.id = maxId + 1;
           todos.push(todo);
@@ -150,16 +211,16 @@ angular.module('strikethru.services', [])
         return null;
       },
       save: function(vault) {
-        if (vault.id){
+        if (vault.id) {
           for (var i = 0; i < vaultItems.length; i++) {
             if (vaultItems[i].id === parseInt(vault.id)) {
-              vaultItems[i]=vault;
+              vaultItems[i] = vault;
               return true;
             }
           }
-        }else{
-          var maxId = vaultItems.reduce(function (p, v) {
-            return ( p.id > v.id ? p.id : v.id );
+        } else {
+          var maxId = vaultItems.reduce(function(p, v) {
+            return (p.id > v.id ? p.id : v.id);
           });
           vault.id = maxId + 1;
           vaultItems.push(vault);

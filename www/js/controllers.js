@@ -41,12 +41,11 @@ angular.module('strikethru.controllers', [])
 
 
   })
-  .controller('LivelistCtrl', function($scope, Todos) {
-    $scope.todos = Todos.all();
-
+  .controller('LivelistCtrl', function($scope,Todos) {
+      $scope.todos = Todos.list();
   })
   .controller('DumpCtrl', function($scope, Todos) {
-    $scope.todos = Todos.all();
+      $scope.todos = Todos.list();
   })
   .controller('VaultCtrl', function($scope, Vault) {
     // With the new view caching in Ionic, Controllers are only called
@@ -65,7 +64,8 @@ angular.module('strikethru.controllers', [])
 
   .controller('VaultDetailCtrl', function($scope, $stateParams, Vault, Todos, $timeout) {
     var timeout = null;
-    $scope.todos = Todos.all();
+    $scope.todos = Todos.list();
+
     $scope.vault = $stateParams.vaultId ? Vault.get($stateParams.vaultId) : {};
     $scope.generateInitials = function() {
       if ($scope.vault.name) {
