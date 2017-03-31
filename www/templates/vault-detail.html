@@ -1,6 +1,6 @@
 <ion-view view-title="{{vault.name ||'New vault category'}}">
   <ion-nav-buttons side="right" ng-show="true">
-    <a class="button button-icon button-clear ion-plus-round" ui-sref="tab.vault-todo-detail({todoId:null})"></a>
+    <a class="button button-icon button-clear ion-plus-round" ui-sref="tab.vault-todo-detail({todoId:null,vaultId:vault.id})"></a>
   </ion-nav-buttons>
   <ion-content class="vault-form">
 

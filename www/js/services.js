@@ -2,11 +2,11 @@ angular.module('strikethru.services', [])
   .service('CurrentListService', function($state) {
     return {
       get: function() {
-        if ($state.includes('tab.livelist')) {
+        if ($state.includes('tab.livelist') || $state.includes('tab.livelist-detail')) {
           return { list : 'livelist' }
-        } else if ($state.includes('tab.dump')) {
+        } else if ($state.includes('tab.dump') ||$state.includes('tab.dump-detail')) {
           return { list : 'dump' }
-        } else if ($state.includes('tab.vault-detail')) {
+        } else if ($state.includes('tab.vault-detail') ||$state.includes('tab.vault-todo-detail')) {
           return { list : 'vault', id: $state.params.vaultId }
         } else {
           return {}

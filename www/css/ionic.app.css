@@ -9830,7 +9830,7 @@ h1.title {
     position: relative;
     left: -1em; }
 
-.todo-item.done *:not(.icon) {
+.todo-item.done *:not(.icon):not(.button .label) {
   text-decoration: line-through; }
 
 .todo-item .no-duedate {

@@ -116,7 +116,9 @@ angular.module('strikethru.controllers', [])
         console.error("Error saving Todos category");
       }
     };
-
+    $scope.hideButton = function(button){
+      return (button==CurrentListService.get().list);
+    }
     $scope.$watch('todo', function(newVal, oldVal) {
       if (newVal != oldVal) {
         if (timeout) {

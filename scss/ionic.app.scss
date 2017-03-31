@@ -41,7 +41,7 @@ h1.title {
 
 .todo-item {
   &.done{
-    *:not(.icon){  text-decoration: line-through; }
+    *:not(.icon):not(.button .label){  text-decoration: line-through; }
 
   }
   .no-duedate{
