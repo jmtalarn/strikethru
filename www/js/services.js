@@ -39,8 +39,23 @@ angular.module('strikethru.services', [])
       }
     }
   })
+  .factory('Setup', function($firebaseObject) {
+    var database = firebase.database();
+    var userId = firebase.auth().currentUser.uid;
+    var setupRef = firebase.database().ref('users/' + userId + '/setup');
+    var setup = $firebaseObject(setupRef);
+    return {
+      load: function($scope) {
 
-  .factory('Todos', function($firebaseArray, $firebaseObject, CurrentListService) {
+        setup.$bindTo($scope, "setup").then(function() {
+          console.log($scope.setup); // { foo: "bar" }
+          $scope.setup.setup
+
+        });
+      }
+    }
+  })
+  .factory('Todos', function($firebaseArray, CurrentListService) {
     var database = firebase.database();
     var userId = firebase.auth().currentUser.uid;
     var livelistRef = firebase.database().ref('users/' + userId + '/todos').child('livelist');

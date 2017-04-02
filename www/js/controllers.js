@@ -132,13 +132,19 @@ angular.module('strikethru.controllers', [])
       }
     }, true);
   })
-  .controller('SetupCtrl', function($scope) {
+  .controller('SetupCtrl', function($scope,Setup, $timeout) {
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         $scope.settings = {
           user: user
         };
 
+        Setup.load($scope);
+
+        $scope.deleteAllDoneTasks = function(){
+          $scope.workingOnDoneTasksDeletion=true;
+          $timeout(function(){$scope.workingOnDoneTasksDeletion=false; }, 5000);
+        }
       }
     });
   });
