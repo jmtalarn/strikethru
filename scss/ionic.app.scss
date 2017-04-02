@@ -39,7 +39,7 @@ h1.title {
   }
 }
 
-.todo-item {
+.todo-item,.vault-item {
   &.done{
     p,h2{  text-decoration: line-through; }
 
@@ -78,7 +78,7 @@ h1.title {
   }
   .description {
     textarea {
-      height: 8em;
+      height: 4em;
     }
   }
 

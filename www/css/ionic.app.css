@@ -9830,20 +9830,20 @@ h1.title {
     position: relative;
     left: -1em; }
 
-.todo-item.done p, .todo-item.done h2 {
+.todo-item.done p, .todo-item.done h2, .vault-item.done p, .vault-item.done h2 {
   text-decoration: line-through; }
 
-.todo-item .no-duedate {
+.todo-item .no-duedate, .vault-item .no-duedate {
   font-style: oblique;
   font-size: 0.8em;
   left: -1em;
   position: relative; }
 
-.todo-item .item-options .icon {
+.todo-item .item-options .icon, .vault-item .item-options .icon {
   display: block;
   left: 20%; }
 
-.todo-item .item-options .label {
+.todo-item .item-options .label, .vault-item .item-options .label {
   display: block;
   font-size: 0.5em;
   margin: 0 auto; }
@@ -9860,7 +9860,7 @@ h1.title {
   font-size: 36px; }
 
 .todo-form .description textarea, .vault-form .description textarea {
-  height: 8em; }
+  height: 4em; }
 
 .todo-form .duedate, .vault-form .duedate {
   padding-left: 1em; }

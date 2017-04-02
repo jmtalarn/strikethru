@@ -67,7 +67,7 @@ angular.module('strikethru.services', [])
 
       remove: function(todo) {
         var array = getArray(todo.list, todo.listId);
-        array.$remove(todo.$id).then(function(ref) {
+        array.$remove(todo).then(function(ref) {
           // data has been deleted locally and in the database
           console.log("Todo task  successfully removed");
         }, function(error) {
@@ -92,7 +92,7 @@ angular.module('strikethru.services', [])
   .factory('Vault', function($firebaseArray, $firebaseObject) {
     var database = firebase.database();
     var userId = firebase.auth().currentUser.uid;
-    var vaultRef = firebase.database().ref('users/' + userId+'/todos').child('vault'); 
+    var vaultRef = firebase.database().ref('users/' + userId+'/todos').child('vault');
     var vault = $firebaseArray(vaultRef);
 
     return {
@@ -100,7 +100,7 @@ angular.module('strikethru.services', [])
         return vault;
       },
       remove: function(category) {
-        vault.$remove(category.$id).then(function(ref) {
+        vault.$remove(category).then(function(ref) {
           // data has been deleted locally and in the database
           console.log("Vault category successfully removed");
         }, function(error) {

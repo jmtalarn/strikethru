@@ -12,9 +12,9 @@ angular.module('strikethru.directives', [])
 
           $scope.todos = Todos.list();
 
-          $scope.$watch('all',function(newValue,oldValue){
-            $scope.todos = Todos.list();
-          });
+          $scope.remove= function(todo){
+            Todos.remove(todo);
+          }
           $scope.onSwipeRight = function(todoId){
             var todo = Todos.get(todoId);
             todo.done=true;
