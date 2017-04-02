@@ -1,4 +1,22 @@
 angular.module('strikethru.services', [])
+  .service('ConfirmRemove', function($ionicPopup) {
+
+    var showConfirm = function(Service, item) {
+      var confirmPopup = $ionicPopup.confirm({
+        title: 'Delete',
+        template: 'Are you sure you want to delete this item?'
+      });
+
+      confirmPopup.then(function(res) {
+        if (res) {
+          Service.remove(item);
+        }
+      });
+    };
+    return {
+      show: showConfirm
+    }
+  })
   .service('CurrentListService', function($state) {
     return {
       get: function() {
@@ -41,15 +59,19 @@ angular.module('strikethru.services', [])
       } else if ('vault' == list) {
         if (vault[vaultId]) {
           return vault[vaultId];
-        }else{
+        } else {
           var userId = firebase.auth().currentUser.uid;
-          var vaultRef = firebase.database().ref('users/' + userId + '/todos/vault/'+vaultId).child('list');
-          vault[vaultId]=$firebaseArray(vaultRef);
+          var vaultRef = firebase.database().ref('users/' + userId + '/todos/vault/' + vaultId).child('list');
+          vault[vaultId] = $firebaseArray(vaultRef);
         }
         return vault[vaultId];
       }
     }
-
+    var clearObject = function(item) {
+      Object.keys(item).forEach(function(prop) {
+        delete item[prop];
+      });
+    }
     return {
       list: function() {
         var state = CurrentListService.get();
@@ -61,18 +83,23 @@ angular.module('strikethru.services', [])
         }
         if (state.list == 'vault') {
 
-          return getArray(state.list,state.id);
+          return getArray(state.list, state.id);
         }
       },
 
       remove: function(todo) {
         var array = getArray(todo.list, todo.listId);
-        array.$remove(todo).then(function(ref) {
-          // data has been deleted locally and in the database
-          console.log("Todo task  successfully removed");
-        }, function(error) {
-          console.error("Error deleting Todo task:", error);
-        });
+        if (todo.$id) {
+          array.$remove(todo).then(function(ref) {
+            // data has been deleted locally and in the database
+            console.log("Todo task  successfully removed");
+            clearObject(todo);
+          }, function(error) {
+            console.error("Error deleting Todo task:", error);
+          });
+        } else {
+          clearObject(todo);
+        }
       },
       get: function(todoId) {
         var state = CurrentListService.get();
@@ -89,10 +116,10 @@ angular.module('strikethru.services', [])
       }
     };
   })
-  .factory('Vault', function($firebaseArray, $firebaseObject) {
+  .factory('Vault', function($firebaseArray, $firebaseObject, $ionicPopup) {
     var database = firebase.database();
     var userId = firebase.auth().currentUser.uid;
-    var vaultRef = firebase.database().ref('users/' + userId+'/todos').child('vault');
+    var vaultRef = firebase.database().ref('users/' + userId + '/todos').child('vault');
     var vault = $firebaseArray(vaultRef);
 
     return {
@@ -116,7 +143,7 @@ angular.module('strikethru.services', [])
         if (category.$id) {
           return vault.$save(category);
         } else {
-          category.list=[];
+          category.list = [];
           return vault.$add(category);
         }
       }

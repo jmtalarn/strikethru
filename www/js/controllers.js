@@ -47,19 +47,19 @@ angular.module('strikethru.controllers', [])
   .controller('DumpCtrl', function($scope, Todos) {
     $scope.todos = [];
   })
-  .controller('VaultCtrl', function($scope, Vault) {
+  .controller('VaultCtrl', function($scope, Vault, ConfirmRemove) {
 
     $scope.vaultItems = Vault.all();
     $scope.remove = function(vault) {
-      Vault.remove(vault);
+      ConfirmRemove.show(Vault, vault);
     };
   })
 
-  .controller('VaultDetailCtrl', function($scope, $stateParams, Vault, Todos, $timeout) {
+  .controller('VaultDetailCtrl', function($scope, $stateParams, Vault, Todos, $timeout, ConfirmRemove) {
     var timeout = null;
 
     $scope.vault = $stateParams.vaultId ? Vault.get($stateParams.vaultId) : {};
-    
+
     $scope.generateInitials = function() {
       if ($scope.vault.name) {
         var letters = $scope.vault.name.match(/\b\w/g) || [];
@@ -73,6 +73,7 @@ angular.module('strikethru.controllers', [])
       }
 
     }
+
     var update = function() {
       if (!$scope.vault.label || $scope.vault.label.trim() == "") {
         $scope.generateInitials();
@@ -94,19 +95,29 @@ angular.module('strikethru.controllers', [])
       }
     }, true);
   })
-  .controller('TodoDetailCtrl', function($scope, $stateParams, Todos, $timeout, CurrentListService) {
+  .controller('TodoDetailCtrl', function($scope, $stateParams, Todos, $timeout, CurrentListService, ConfirmRemove) {
     var timeout = null;
     $scope.todo = $stateParams.todoId ? Todos.get($stateParams.todoId) : {};
     var update = function() {
-      var state = CurrentListService.get();
-      $scope.todo.list = state.list;
-      if (state.id){ $scope.todo.listId = state.id;}
+      if ($scope.todo.title || $scope.todo.description) {
+        var state = CurrentListService.get();
+        $scope.todo.list = state.list;
+        if (state.id) {
+          $scope.todo.listId = state.id;
+        }
 
-      Todos.save($scope.todo).then(function(ref) {
-        $scope.todo = Todos.get(ref.key);
-      }, function(error) {
-        console.error("Error saving Todo task");
-      });
+        Todos.save($scope.todo).then(function(ref) {
+          $scope.todo = Todos.get(ref.key);
+        }, function(error) {
+          console.error("Error saving Todo task");
+        });
+      }
+    };
+    $scope.remove = function(todo) {
+      if (timeout) {
+        $timeout.cancel(timeout);
+      }
+      ConfirmRemove.show(Todos, todo);
     };
     $scope.hideButton = function(button) {
       return (button == CurrentListService.get().list);
