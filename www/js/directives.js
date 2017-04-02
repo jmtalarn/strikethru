@@ -2,15 +2,19 @@ angular.module('strikethru.directives', [])
   .directive('todoList', function() {
     return {
       restrict: 'E',
-      scope:{
-        currentList: '@',
-        todos: '=items'
-      },
+      scope: true,
       templateUrl: 'templates/todo-list.html',
       link: function($scope, $element, $attrs) {
         $scope.baseHref = location.hash;
       },
       controller: function($scope,Todos) {
+
+
+          $scope.todos = Todos.list();
+
+          $scope.$watch('all',function(newValue,oldValue){
+            $scope.todos = Todos.list();
+          });
           $scope.onSwipeRight = function(todoId){
             var todo = Todos.get(todoId);
             todo.done=true;
@@ -31,8 +35,7 @@ angular.module('strikethru.directives', [])
           limit: '='
         },
         controller: function($scope) {
-          // var text = $attrs.text || "";
-          // var limit = $attrs.limit || 100;
+
           var expanded = true;
 
           $scope.toggleText = function() {

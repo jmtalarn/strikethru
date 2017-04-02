@@ -42,19 +42,12 @@ angular.module('strikethru.controllers', [])
 
   })
   .controller('LivelistCtrl', function($scope, Todos) {
-    $scope.todos = Todos.list();
+    $scope.todos = [];
   })
   .controller('DumpCtrl', function($scope, Todos) {
-    $scope.todos = Todos.list();
+    $scope.todos = [];
   })
   .controller('VaultCtrl', function($scope, Vault) {
-    // With the new view caching in Ionic, Controllers are only called
-    // when they are recreated or on app start, instead of every page change.
-    // To listen for when this page is active (for example, to refresh data),
-    // listen for the $ionicView.enter event:
-    //
-    //$scope.$on('$ionicView.enter', function(e) {
-    //});
 
     $scope.vaultItems = Vault.all();
     $scope.remove = function(vault) {
@@ -64,9 +57,9 @@ angular.module('strikethru.controllers', [])
 
   .controller('VaultDetailCtrl', function($scope, $stateParams, Vault, Todos, $timeout) {
     var timeout = null;
-    $scope.todos = Todos.list();
 
     $scope.vault = $stateParams.vaultId ? Vault.get($stateParams.vaultId) : {};
+    
     $scope.generateInitials = function() {
       if ($scope.vault.name) {
         var letters = $scope.vault.name.match(/\b\w/g) || [];
@@ -84,10 +77,13 @@ angular.module('strikethru.controllers', [])
       if (!$scope.vault.label || $scope.vault.label.trim() == "") {
         $scope.generateInitials();
       }
-      if (!Vault.save($scope.vault)) {
+      Vault.save($scope.vault).then(function(ref) {
+        $scope.vault = Vault.get(ref.key);
+      }, function(error) {
         console.error("Error saving Vault category");
-      }
+      });
     };
+
     $scope.$watch('vault', function(newVal, oldVal) {
       if (newVal != oldVal) {
         if (timeout) {
@@ -103,12 +99,14 @@ angular.module('strikethru.controllers', [])
     $scope.todo = $stateParams.todoId ? Todos.get($stateParams.todoId) : {};
     var update = function() {
       var state = CurrentListService.get();
-      $scope.todo.list = {};
-      $scope.todo.list[state.list] = state.id ? state.id : true;
+      $scope.todo.list = state.list;
+      if (state.id){ $scope.todo.listId = state.id;}
 
-      if (!Todos.save($scope.todo)) {
-        console.error("Error saving Todos category");
-      }
+      Todos.save($scope.todo).then(function(ref) {
+        $scope.todo = Todos.get(ref.key);
+      }, function(error) {
+        console.error("Error saving Todo task");
+      });
     };
     $scope.hideButton = function(button) {
       return (button == CurrentListService.get().list);
@@ -118,7 +116,7 @@ angular.module('strikethru.controllers', [])
         if (timeout) {
           $timeout.cancel(timeout)
         }
-        timeout = $timeout(update, 1000); // 1000 = 1 second
+        timeout = $timeout(update, 2000); // 1000 = 1 second
 
       }
     }, true);

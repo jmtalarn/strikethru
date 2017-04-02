@@ -3,8 +3,8 @@
   class="item-remove-animate item-icon-right todo-item"
   ng-repeat="todo in todos" type="item-text-wrap"
   ng-class="{'done' : todo.done}"
-  ng-href="{{baseHref}}/todo/{{todo.id}}"
-  on-swipe-right="onSwipeRight({{todo.id}})">
+  ng-href="{{baseHref}}/todo/{{todo.$id}}"
+  on-swipe-right="onSwipeRight({{todo.$id}})">
 
     <h2>{{todo.title}}</h2>
     <p>{{todo.description}}</p>
