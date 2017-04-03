@@ -22,7 +22,7 @@
       </li>
       <li class="item item-button-right">
         Clear and delete all done tasks
-        <button class="button button-assertive">
+        <button ng-disabled="clearDoneTasks.running" ng-click="clearDoneTasks.run()" class="button button-assertive">
           <i class="icon ion-trash-b"></i>
         </button>
       </li>

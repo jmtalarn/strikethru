@@ -47,15 +47,15 @@ angular.module('strikethru.controllers', [])
   .controller('DumpCtrl', function($scope, Todos) {
     $scope.todos = [];
   })
-  .controller('VaultCtrl', function($scope, Vault, ConfirmRemove) {
+  .controller('VaultCtrl', function($scope, Vault, Confirm, LABELS) {
 
     $scope.vaultItems = Vault.all();
     $scope.remove = function(vault) {
-      ConfirmRemove.show(Vault, vault);
+      Confirm.show(LABELS.DELETE.VAULT.TITLE, LABELS.DELETE.VAULT.TEMPLATE, Vault.remove, vault);
     };
   })
 
-  .controller('VaultDetailCtrl', function($scope, $stateParams, Vault, Todos, $timeout, ConfirmRemove) {
+  .controller('VaultDetailCtrl', function($scope, $stateParams, Vault, Todos, $timeout) {
     var timeout = null;
 
     $scope.vault = $stateParams.vaultId ? Vault.get($stateParams.vaultId) : {};
@@ -95,7 +95,7 @@ angular.module('strikethru.controllers', [])
       }
     }, true);
   })
-  .controller('TodoDetailCtrl', function($scope, $stateParams, Todos, $timeout, CurrentListService, ConfirmRemove) {
+  .controller('TodoDetailCtrl', function($scope, $stateParams, Todos, $timeout, CurrentListService, Confirm, LABELS) {
     var timeout = null;
     $scope.todo = $stateParams.todoId ? Todos.get($stateParams.todoId) : {};
     var update = function() {
@@ -117,7 +117,7 @@ angular.module('strikethru.controllers', [])
       if (timeout) {
         $timeout.cancel(timeout);
       }
-      ConfirmRemove.show(Todos, todo);
+      Confirm.show(LABEL.DELETE.TODO.TITLE, LABEL.DELETE.TODO.TEMPLATE, Todos.remove, todo);
     };
     $scope.hideButton = function(button) {
       return (button == CurrentListService.get().list);
@@ -132,7 +132,7 @@ angular.module('strikethru.controllers', [])
       }
     }, true);
   })
-  .controller('SetupCtrl', function($scope,Setup, $timeout) {
+  .controller('SetupCtrl', function($scope, Setup, $timeout, Todos, Confirm, LABELS) {
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         $scope.settings = {
@@ -140,13 +140,19 @@ angular.module('strikethru.controllers', [])
         };
         Setup.syncInScope($scope);
 
-        $scope.deleteAllDoneTasks = function(){
-          $scope.workingOnDoneTasksDeletion=true;
-          $timeout(
-            function(){
-              $scope.workingOnDoneTasksDeletion=false;
-            }, 5000);
-        }
+        $scope.clearDoneTasks = {
+          running: false,
+          run: function() {
+            $scope.clearDoneTasks.running = true;
+
+            Confirm.show(LABELS.DELETE.CLEAR.TITLE, LABELS.DELETE.CLEAR.TEMPLATE, function() {
+
+              Todos.clearDoneTasks();
+              $scope.clearDoneTasks.running = false;
+            });
+
+          }
+        };
       }
     });
   });

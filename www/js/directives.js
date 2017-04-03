@@ -7,13 +7,13 @@ angular.module('strikethru.directives', [])
       link: function($scope, $element, $attrs) {
         $scope.baseHref = location.hash;
       },
-      controller: function($scope, Todos, ConfirmRemove) {
+      controller: function($scope, Todos, Confirm, LABELS) {
 
 
         $scope.todos = Todos.list();
 
         $scope.remove = function(todo) {
-          ConfirmRemove.show(Todos, todo);
+          Confirm.show(LABELS.DELETE.TODO.TITLE, LABELS.DELETE.TODO.TEMPLATE, Todos.remove, todo);
         };
         $scope.onSwipeRight = function(todo) {
           todo.done = true;
