@@ -2,33 +2,31 @@
   <ion-content>
     <ul class="list">
       <li class="item item-input item-select">
-          <div class="input-label">
-            Strikethru setup
-          </div>
-          <select ng-model="setup.strikethru">
+        <div class="input-label">
+          Strikethru setup
+        </div>
+        <select ng-model="setup.strikethru">
             <option>Lite</option>
             <option selected>Standard</option>
             <option>Pro</option>
           </select>
-        </li>
+      </li>
       <li class="item item-toggle">
-         Enable 1-3-5 prioritize rule
-         <label class="toggle toggle-positive">
+        Enable 1-3-5 prioritize rule
+        <label class="toggle toggle-positive">
            <input type="checkbox" ng-model="setup.rule135">
            <div class="track">
              <div class="handle"></div>
            </div>
          </label>
       </li>
-      <li class="item item-toggle">
-         Delete all done tasks
-         <label class="toggle toggle-assertive" ng-click="deleteAllDoneTasks()">
-           <input type="checkbox" ng-model="workingOnDoneTasksDeletion">
-           <div class="track">
-             <div class="handle"></div>
-           </div>
-         </label>
+      <li class="item item-button-right">
+        Clear and delete all done tasks
+        <button class="button button-assertive">
+          <i class="icon ion-trash-b"></i>
+        </button>
       </li>
+
     </ul>
     <div class="card">
 

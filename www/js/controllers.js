@@ -138,12 +138,14 @@ angular.module('strikethru.controllers', [])
         $scope.settings = {
           user: user
         };
-
-        Setup.load($scope);
+        Setup.syncInScope($scope);
 
         $scope.deleteAllDoneTasks = function(){
           $scope.workingOnDoneTasksDeletion=true;
-          $timeout(function(){$scope.workingOnDoneTasksDeletion=false; }, 5000);
+          $timeout(
+            function(){
+              $scope.workingOnDoneTasksDeletion=false;
+            }, 5000);
         }
       }
     });

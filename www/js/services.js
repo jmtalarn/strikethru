@@ -39,13 +39,32 @@ angular.module('strikethru.services', [])
       }
     }
   })
-  .factory('Setup', function($firebaseObject) {
+  .service('Setup', function($firebaseObject) {
     var database = firebase.database();
     var userId = firebase.auth().currentUser.uid;
     var setupRef = firebase.database().ref('users/' + userId + '/setup');
     var setup = $firebaseObject(setupRef);
+    setup.$loaded().then(function() {
+      if (!setup.strikethru) {
+        setup.strikethru = "Standard";
+      }
+    });
+    //Default values
     return {
-      load: function($scope) {
+      strikethru: function(value) {
+        if (value) {
+          setup.strikethru = value;
+        }
+        return setup.strikethru || 'Standard'; //Lite|Standard|Pro
+      },
+      rule135: function(value) {
+        if (value) {
+          setup.rule135 = value;
+        }
+        return setup.rule135 || false; //Lite|Standard|Pro
+      },
+
+      syncInScope: function($scope) {
 
         setup.$bindTo($scope, "setup").then(function() {
           console.log($scope.setup); // { foo: "bar" }
