@@ -97,9 +97,8 @@ angular.module('strikethru.controllers', [])
   })
   .controller('TodoDetailCtrl', function($scope, $stateParams, Todos, Vault, $timeout, $ionicModal, CurrentListService, Confirm, LABELS) {
     var timeout = null;
-    $scope.todo = $stateParams.todoId ? Todos.get($stateParams.todoId) : {};
-
-
+    var state = CurrentListService.get();
+    $scope.todo = $stateParams.todoId ? Todos.get($stateParams.todoId) : { list: state.list, listId: state.id }; //Set current list
 
     $scope.moveToList = function(list) {
       $scope.vaultCategories = Vault.all();
@@ -125,10 +124,12 @@ angular.module('strikethru.controllers', [])
 
     var update = function() {
       if ($scope.todo.title || $scope.todo.description) {
-        var state = CurrentListService.get();
-        $scope.todo.list = state.list;
-        if (state.id) {
-          $scope.todo.listId = state.id;
+        if(!$scope.todo.list){
+          var state = CurrentListService.get();
+          $scope.todo.list = state.list;
+          if (state.id) {
+            $scope.todo.listId = state.id;
+          }
         }
 
         Todos.save($scope.todo).then(function(ref) {
