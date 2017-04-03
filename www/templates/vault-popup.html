@@ -4,7 +4,11 @@
   </ion-header-bar>
   <ion-content>
     <ion-list>
-      <ion-radio ng-repeat="vault in vaultCategories" ng-model="selectedlistId" ng-change="closeModal()" ng-value="{{vault.$id}}">
+      <ion-radio ng-repeat="vault in vaultCategories"
+          ng-model="todo.listId"
+          ng-selected="todo.listId"
+          ng-change="closeModal(this)"
+          ng-value="{{vault.$id}}">
         <h1>{{vault.label}}</h1>{{vault.name}}
       </ion-radio>
     </ion-list>

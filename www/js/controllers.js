@@ -109,14 +109,11 @@ angular.module('strikethru.controllers', [])
           animation: 'slide-in-up'
         }).then(function(modal) {
             $scope.modal = modal;
-            if($scope.todo.listId){
-              $scope.selectedlistId = $scope.todo.listId;
-            }
             modal.show();
           });
-          $scope.closeModal = function() {
+          $scope.closeModal = function(element) {
             $scope.todo.list = list;
-            $scope.todo.listId = $scope.selectedlistId;
+            $scope.todo.listId = element.vault.$id;
             $scope.modal.remove();
           };
 
