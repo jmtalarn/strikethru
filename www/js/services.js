@@ -1,4 +1,36 @@
 angular.module('strikethru.services', [])
+  .service('VaultPopup', function($rootScope,$ionicModal, Vault) {
+
+
+
+    var showPopup = function($scope, list) {
+      $scope = $scope || $rootScope.$new();
+      $scope.vaultCategories = Vault.all();
+
+      if (list == 'vault' && $scope.vaultCategories.length > 0) {
+
+        $ionicModal.fromTemplateUrl('templates/vault-popup.html', {
+          scope: $scope,
+          animation: 'slide-in-up'
+        }).then(function(modal) {
+          $scope.modal = modal;
+          $scope.modal.show();
+        });
+
+      } else {
+        $scope.todo.list = list;
+      }
+    }
+    var selectAndClose = function($scope,vault){
+      $scope.todo.list = 'vault';
+      $scope.todo.listId = vault.$id;
+      $scope.modal.remove();
+    }
+    return {
+      show: showPopup,
+      selectAndClose: selectAndClose
+    }
+  })
   .service('Confirm', function($ionicPopup) {
 
     var showConfirm = function(title, template, callback, item) {
@@ -66,8 +98,7 @@ angular.module('strikethru.services', [])
 
       syncInScope: function($scope) {
 
-        setup.$bindTo($scope, "setup").then(function() {
-        });
+        setup.$bindTo($scope, "setup").then(function() {});
       }
     }
   })
@@ -147,24 +178,24 @@ angular.module('strikethru.services', [])
       clearDoneTasks: function() {
         var deletedTasks = [];
         angular.forEach(livelist, function(task, idx) {
-          if(task.done){
+          if (task.done) {
             livelist.$remove(task);
             this.push(task);
           }
         }, deletedTasks);
         angular.forEach(dump, function(task, idx) {
-          if(task.done){
+          if (task.done) {
             dump.$remove(task);
             this.push(task);
           }
         }, deletedTasks);
         angular.forEach(vault, function(item, key) {
-          angular.forEach(item, function(task,idx){
-            if(task.done){
+          angular.forEach(item, function(task, idx) {
+            if (task.done) {
               item.$remove(task);
               this.push(task);
             }
-          },deletedTasks);
+          }, deletedTasks);
         }, deletedTasks);
         console.table(deletedTasks);
       }

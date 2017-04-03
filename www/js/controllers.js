@@ -95,33 +95,18 @@ angular.module('strikethru.controllers', [])
       }
     }, true);
   })
-  .controller('TodoDetailCtrl', function($scope, $stateParams, Todos, Vault, $timeout, $ionicModal, CurrentListService, Confirm, LABELS) {
+  .controller('TodoDetailCtrl', function($scope, $stateParams, Todos, Vault, $timeout, VaultPopup, CurrentListService, Confirm, LABELS) {
     var timeout = null;
     var state = CurrentListService.get();
     $scope.todo = $stateParams.todoId ? Todos.get($stateParams.todoId) : { list: state.list, listId: state.id }; //Set current list
 
     $scope.moveToList = function(list) {
-      $scope.vaultCategories = Vault.all();
-      if (list == 'vault' && $scope.vaultCategories.length > 0) {
-        $ionicModal.fromTemplateUrl('templates/vault-popup.html', {
-          scope: $scope,
-          animation: 'slide-in-up'
-        }).then(function(modal) {
-            $scope.modal = modal;
-            modal.show();
-          });
-          $scope.closeModal = function(element) {
-            $scope.todo.list = list;
-            $scope.todo.listId = element.vault.$id;
-            $scope.modal.remove();
-          };
-
-      } else {
-        $scope.todo.list = list;
-        update();
-      }
+      VaultPopup.show($scope, list);
     };
+    $scope.selectAndClose = function(vault) {
+      VaultPopup.selectAndClose($scope,vault);
 
+    };
     var update = function() {
       if ($scope.todo.title || $scope.todo.description) {
         if(!$scope.todo.list){
@@ -135,7 +120,7 @@ angular.module('strikethru.controllers', [])
         Todos.save($scope.todo).then(function(ref) {
           $scope.todo = Todos.get(ref.key);
         }, function(error) {
-          console.error("Error saving Todo task");
+          console.error("Error saving Todo task: "+ error);
         });
       }
     };
