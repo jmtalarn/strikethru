@@ -1,0 +1,13 @@
+<ion-modal-view>
+  <ion-header-bar  class="bar-positive">
+    <h1 class="title">Choose a Vault category</h1>
+  </ion-header-bar>
+  <ion-content>
+    <ion-list>
+      <ion-radio ng-repeat="vault in vaultCategories" ng-model="selectedlistId" ng-change="closeModal()" ng-value="{{vault.$id}}">
+        <h1>{{vault.label}}</h1>{{vault.name}}
+      </ion-radio>
+    </ion-list>
+
+  </ion-content>
+</ion-modal-view>

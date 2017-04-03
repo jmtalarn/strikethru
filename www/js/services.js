@@ -167,12 +167,6 @@ angular.module('strikethru.services', [])
           },deletedTasks);
         }, deletedTasks);
         console.table(deletedTasks);
-        //recorrer array livelist
-        //var livelist = $firebaseArray(livelistRef);
-        //recorrer array dump
-        //var dump = $firebaseArray(dumpRef);
-        //recorrer objeto vault y recorrer arrays
-        //var vault
       }
     };
   })

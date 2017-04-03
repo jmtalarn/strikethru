@@ -24,15 +24,15 @@
     </div>
     <div class="button-bar">
 
-      <button class="button button-energized" ng-hide="hideButton('livelist')" ng-click="">
+      <button class="button button-energized" ng-hide="hideButton('livelist')" ng-click="moveToList('livelist')">
         <i class="icon ion-android-checkbox"></i>
         <div class="label">Live list</div>
       </ion-option-button>
-      <button class="button button-calm" ng-hide="hideButton('vault')"  ng-click="">
+      <button class="button button-calm" ng-hide="hideButton('vault')"  ng-click="moveToList('vault')">
         <i class="icon ion-android-apps"></i>
         <div class="label">Vault</div>
       </ion-option-button>
-      <button class="button button-balanced" ng-hide="hideButton('dump')"  ng-click="">
+      <button class="button button-balanced" ng-hide="hideButton('dump')"  ng-click="moveToList('dump')">
         <i class="icon ion-android-bulb"></i>
         <div class="label">Dump</div>
       </ion-option-button>
