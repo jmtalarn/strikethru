@@ -5,7 +5,12 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('strikethru', ['ionic', 'firebase', 'strikethru.controllers', 'strikethru.services', 'strikethru.directives','strikethru.constants', "ion-datetime-picker"])
+
+$ionicPlatform.ready(function() {
+  $cordovaPlugin.someFunction().then(success, error);
+});
+
+angular.module('strikethru', ['ionic', 'firebase','ngCordova', 'strikethru.controllers', 'strikethru.services', 'strikethru.directives','strikethru.constants', "ion-datetime-picker"])
   .constant('FIREBASE_ROOT', 'https://strikethru-b4a44.firebaseio.com')
   .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
