@@ -13,7 +13,7 @@ angular.module('strikethru.directives', [])
         $scope.todos = Todos.list();
 
         $scope.remove = function(todo) {
-          Confirm.show(LABELS.DELETE.TODO.TITLE, LABELS.DELETE.TODO.TEMPLATE, Todos.remove, todo, autosave)
+          Confirm.show(LABELS.DELETE.TODO.TITLE, LABELS.DELETE.TODO.TEMPLATE, Todos.remove, todo, $scope.autosave)
           .then(function(ref) {
             // data has been deleted locally and in the database
             console.log("Todo task  successfully removed");
