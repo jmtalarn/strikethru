@@ -98,18 +98,26 @@ angular.module('strikethru.controllers', [])
   .controller('TodoDetailCtrl', function($scope, $stateParams, Todos, Vault, $timeout, VaultPopup, CurrentListService, Confirm, LABELS) {
     var timeout = null;
     var state = CurrentListService.get();
-    $scope.todo = $stateParams.todoId ? Todos.get($stateParams.todoId) : { list: state.list,  listId: (state.id?state.id:null) }; //Set current list
+    $scope.todo = $stateParams.todoId ? Todos.get($stateParams.todoId) : {
+      list: state.list,
+      listId: (state.id ? state.id : null)
+    }; //Set current list
+
+    $scope.autosave = {
+      enabled: true
+    };
 
     $scope.moveToList = function(list) {
+
       VaultPopup.show($scope, list);
+
     };
     $scope.selectAndClose = function(vault) {
-      VaultPopup.selectAndClose($scope,vault);
-
+      VaultPopup.selectAndClose($scope, vault);
     };
     var update = function() {
       if ($scope.todo.title || $scope.todo.description) {
-        if(!$scope.todo.list){
+        if (!$scope.todo.list) {
           var state = CurrentListService.get();
           $scope.todo.list = state.list;
           if (state.id) {
@@ -120,21 +128,30 @@ angular.module('strikethru.controllers', [])
         Todos.save($scope.todo).then(function(ref) {
           $scope.todo = Todos.get(ref.key);
         }, function(error) {
-          console.error("Error saving Todo task: "+ error);
+          console.error("Error saving Todo task: " + error);
         });
       }
     };
     $scope.remove = function(todo) {
+      $scope.autosave.enabled = false;
       if (timeout) {
         $timeout.cancel(timeout);
       }
-      Confirm.show(LABELS.DELETE.TODO.TITLE, LABELS.DELETE.TODO.TEMPLATE, Todos.remove, todo);
+      Confirm.show(LABELS.DELETE.TODO.TITLE, LABELS.DELETE.TODO.TEMPLATE, Todos.remove, todo, $scope.autosave)
+      .then(function(ref) {
+        // data has been deleted locally and in the database
+        console.log("Todo task  successfully removed");
+        clearObject(todo);
+      }, function(error) {
+        console.error("Error deleting Todo task:", error);
+      });
     };
+
     $scope.hideButton = function(button) {
       return (button == CurrentListService.get().list);
     }
     $scope.$watch('todo', function(newVal, oldVal) {
-      if (newVal != oldVal) {
+      if (newVal != oldVal && $scope.autosave.enabled) {
         if (timeout) {
           $timeout.cancel(timeout)
         }

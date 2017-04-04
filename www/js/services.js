@@ -1,11 +1,45 @@
 angular.module('strikethru.services', [])
-  .service('VaultPopup', function($rootScope, $ionicModal, Vault, Todos) {
+  .service('VaultPopup', function($rootScope, $ionicModal, $state, Vault, Todos) {
 
+    var moveToList = function(todo, list, listId, autosave) {
+      Todos.remove(todo).then(function(ref) {
+
+        var aTodo = {}
+        if (todo.title) {
+          aTodo.title = todo.title;
+        }
+        if (todo.description) {
+          aTodo.description = todo.description;
+        }
+        if (todo.date) {
+          aTodo.date = todo.date;
+        }
+        if (todo.done) {
+          aTodo.done = todo.done;
+        }
+        aTodo.list = list;
+        if (listId) {
+          aTodo.listId = listId;
+        }
+        Todos.save(aTodo).then(function(ref){
+          console.log("Task moved between lists successfully");
+          autosave.enabled = true;
+          var state = aTodo.list=='vault'?'tab.vault-todo-detail':"tab"+aTodo.list+"-detail";
+          var objParams = {todoId: ref.key};
+          if (aTodo.listId){ objParams.vaultId=aTodo.listId}
+          $state.go(state, objParams);
+        },function(){
+            console.error("Error moving task from list:", error);
+            autosave.enabled = true;
+        });
+      });
+    };
 
 
     var showPopup = function($scope, list) {
       $scope = $scope || $rootScope.$new();
       $scope.vaultCategories = Vault.all();
+      $scope.autosave.enabled = false;
       $scope.currentListId = $scope.todo.listId?$scope.todo.listId:null;
       if (list == 'vault' && $scope.vaultCategories.length > 0) {
 
@@ -18,12 +52,13 @@ angular.module('strikethru.services', [])
         });
 
       } else {
-        Todos.moveToList($scope.todo, list);
+        moveToList($scope.todo, list, $scope.autosave);
+
       }
     }
     var selectAndClose = function($scope, vault) {
-      Todos.moveToList($scope.todo, 'vault', vault.$id);
       $scope.modal.remove();
+      moveToList($scope.todo, 'vault', vault.$id, $scope.autosave);
     }
     return {
       show: showPopup,
@@ -32,7 +67,7 @@ angular.module('strikethru.services', [])
   })
   .service('Confirm', function($ionicPopup) {
 
-    var showConfirm = function(title, template, callback, item) {
+    var showConfirm = function(title, template, callback, item, autosave) {
       var confirmPopup = $ionicPopup.confirm({
         title: title,
         template: template
@@ -40,7 +75,8 @@ angular.module('strikethru.services', [])
 
       confirmPopup.then(function(res) {
         if (res) {
-          callback(item);
+          return callback(item);
+          autosave.enabled = true;
         }
       });
     };
@@ -157,15 +193,7 @@ angular.module('strikethru.services', [])
     var remove = function(todo) {
       var array = getArray(todo.list, todo.listId);
       if (todo.$id) {
-        array.$remove(todo).then(function(ref) {
-          // data has been deleted locally and in the database
-          console.log("Todo task  successfully removed");
-          clearObject(todo);
-        }, function(error) {
-          console.error("Error deleting Todo task:", error);
-        });
-      } else {
-        clearObject(todo);
+        return array.$remove(todo);
       }
     };
     var get = function(todoId) {
@@ -173,32 +201,7 @@ angular.module('strikethru.services', [])
       var array = getArray(state.list, state.id);
       return array.$getRecord(todoId)
     };
-    var moveToList = function(todo, list, listId) {
-      var array = getArray(todo.list, todo.listId);
-      array.$remove(todo).then(function(ref) {
 
-        var aTodo = {}
-        if (todo.title) {
-          aTodo.title = todo.title;
-        }
-        if (todo.description) {
-          aTodo.description = todo.description;
-        }
-        if (todo.date) {
-          aTodo.date = todo.date;
-        }
-        if (todo.done) {
-          aTodo.done = todo.done;
-        }
-        aTodo.list = list;
-        if (listId) {
-          aTodo.listId = listId;
-        }
-        save(aTodo);
-      }, function(error) {
-        console.error("Error moving task from list:", error);
-      });
-    };
     var clearDoneTasks = function() {
       var deletedTasks = [];
       angular.forEach(livelist, function(task, idx) {
@@ -228,7 +231,6 @@ angular.module('strikethru.services', [])
       remove: remove,
       get: get,
       save: save,
-      moveToList: moveToList,
       clearDoneTasks: clearDoneTasks
     };
   })

@@ -13,7 +13,14 @@ angular.module('strikethru.directives', [])
         $scope.todos = Todos.list();
 
         $scope.remove = function(todo) {
-          Confirm.show(LABELS.DELETE.TODO.TITLE, LABELS.DELETE.TODO.TEMPLATE, Todos.remove, todo);
+          Confirm.show(LABELS.DELETE.TODO.TITLE, LABELS.DELETE.TODO.TEMPLATE, Todos.remove, todo, autosave)
+          .then(function(ref) {
+            // data has been deleted locally and in the database
+            console.log("Todo task  successfully removed");
+            clearObject(todo);
+          }, function(error) {
+            console.error("Error deleting Todo task:", error);
+          });
         };
         $scope.onSwipeRight = function(todo) {
           todo.done = true;
