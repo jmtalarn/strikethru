@@ -5,8 +5,8 @@
   <ion-content>
     <ion-list>
       <ion-radio ng-repeat="vault in vaultCategories"
-          ng-model="todo.listId"
-          ng-selected="todo.listId"
+          ng-model="currentListId"
+          ng-selected="currentListId"
           ng-click="selectAndClose(vault)"
           ng-change="selectAndClose(vault)"
           ng-value="{{vault.$id}}">
