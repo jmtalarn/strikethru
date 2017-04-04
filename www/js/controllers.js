@@ -98,7 +98,7 @@ angular.module('strikethru.controllers', [])
   .controller('TodoDetailCtrl', function($scope, $stateParams, Todos, Vault, $timeout, VaultPopup, CurrentListService, Confirm, LABELS) {
     var timeout = null;
     var state = CurrentListService.get();
-    $scope.todo = $stateParams.todoId ? Todos.get($stateParams.todoId) : { list: state.list, listId: state.id }; //Set current list
+    $scope.todo = $stateParams.todoId ? Todos.get($stateParams.todoId) : { list: state.list,  listId: (state.id?state.id:null) }; //Set current list
 
     $scope.moveToList = function(list) {
       VaultPopup.show($scope, list);
@@ -128,7 +128,7 @@ angular.module('strikethru.controllers', [])
       if (timeout) {
         $timeout.cancel(timeout);
       }
-      Confirm.show(LABEL.DELETE.TODO.TITLE, LABEL.DELETE.TODO.TEMPLATE, Todos.remove, todo);
+      Confirm.show(LABELS.DELETE.TODO.TITLE, LABELS.DELETE.TODO.TEMPLATE, Todos.remove, todo);
     };
     $scope.hideButton = function(button) {
       return (button == CurrentListService.get().list);

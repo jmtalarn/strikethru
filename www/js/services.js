@@ -1,5 +1,5 @@
 angular.module('strikethru.services', [])
-  .service('VaultPopup', function($rootScope,$ionicModal, Vault) {
+  .service('VaultPopup', function($rootScope, $ionicModal, Vault, Todos) {
 
 
 
@@ -18,12 +18,11 @@ angular.module('strikethru.services', [])
         });
 
       } else {
-        $scope.todo.list = list;
+        Todos.moveToList($scope.todo, list);
       }
     }
-    var selectAndClose = function($scope,vault){
-      $scope.todo.list = 'vault';
-      $scope.todo.listId = vault.$id;
+    var selectAndClose = function($scope, vault) {
+      Todos.moveToList($scope.todo, 'vault', vault.$id);
       $scope.modal.remove();
     }
     return {
@@ -134,71 +133,103 @@ angular.module('strikethru.services', [])
         delete item[prop];
       });
     }
-    return {
-      list: function() {
-        var state = CurrentListService.get();
-        if (state.list == 'livelist') {
-          return livelist;
-        }
-        if (state.list == 'dump') {
-          return dump;
-        }
-        if (state.list == 'vault') {
-
-          return getArray(state.list, state.id);
-        }
-      },
-      remove: function(todo) {
-        var array = getArray(todo.list, todo.listId);
-        if (todo.$id) {
-          array.$remove(todo).then(function(ref) {
-            // data has been deleted locally and in the database
-            console.log("Todo task  successfully removed");
-            clearObject(todo);
-          }, function(error) {
-            console.error("Error deleting Todo task:", error);
-          });
-        } else {
-          clearObject(todo);
-        }
-      },
-      get: function(todoId) {
-        var state = CurrentListService.get();
-        var array = getArray(state.list, state.id);
-        return array.$getRecord(todoId)
-      },
-      save: function(todo) {
-        var array = getArray(todo.list, todo.listId);
-        if (todo.$id) {
-          return array.$save(todo);
-        } else {
-          return array.$add(todo);
-        }
-      },
-      clearDoneTasks: function() {
-        var deletedTasks = [];
-        angular.forEach(livelist, function(task, idx) {
-          if (task.done) {
-            livelist.$remove(task);
-            this.push(task);
-          }
-        }, deletedTasks);
-        angular.forEach(dump, function(task, idx) {
-          if (task.done) {
-            dump.$remove(task);
-            this.push(task);
-          }
-        }, deletedTasks);
-        angular.forEach(vault, function(item, key) {
-          angular.forEach(item, function(task, idx) {
-            if (task.done) {
-              item.$remove(task);
-              this.push(task);
-            }
-          }, deletedTasks);
-        }, deletedTasks);
-        console.table(deletedTasks);
+    var save = function(todo) {
+      var array = getArray(todo.list, todo.listId);
+      if (todo.$id) {
+        return array.$save(todo);
+      } else {
+        return array.$add(todo);
       }
+    }
+    var list = function() {
+      var state = CurrentListService.get();
+      if (state.list == 'livelist') {
+        return livelist;
+      }
+      if (state.list == 'dump') {
+        return dump;
+      }
+      if (state.list == 'vault') {
+
+        return getArray(state.list, state.id);
+      }
+    };
+    var remove = function(todo) {
+      var array = getArray(todo.list, todo.listId);
+      if (todo.$id) {
+        array.$remove(todo).then(function(ref) {
+          // data has been deleted locally and in the database
+          console.log("Todo task  successfully removed");
+          clearObject(todo);
+        }, function(error) {
+          console.error("Error deleting Todo task:", error);
+        });
+      } else {
+        clearObject(todo);
+      }
+    };
+    var get = function(todoId) {
+      var state = CurrentListService.get();
+      var array = getArray(state.list, state.id);
+      return array.$getRecord(todoId)
+    };
+    var moveToList = function(todo, list, listId) {
+      var array = getArray(todo.list, todo.listId);
+      array.$remove(todo).then(function(ref) {
+
+        var aTodo = {}
+        if (todo.title) {
+          aTodo.title = todo.title;
+        }
+        if (todo.description) {
+          aTodo.description = todo.description;
+        }
+        if (todo.date) {
+          aTodo.date = todo.date;
+        }
+        if (todo.done) {
+          aTodo.done = todo.done;
+        }
+        aTodo.list = list;
+        if (listId) {
+          aTodo.listId = listId;
+        }
+        save(aTodo);
+      }, function(error) {
+        console.error("Error moving task from list:", error);
+      });
+    };
+    var clearDoneTasks = function() {
+      var deletedTasks = [];
+      angular.forEach(livelist, function(task, idx) {
+        if (task.done) {
+          livelist.$remove(task);
+          this.push(task);
+        }
+      }, deletedTasks);
+      angular.forEach(dump, function(task, idx) {
+        if (task.done) {
+          dump.$remove(task);
+          this.push(task);
+        }
+      }, deletedTasks);
+      angular.forEach(vault, function(item, key) {
+        angular.forEach(item, function(task, idx) {
+          if (task.done) {
+            item.$remove(task);
+            this.push(task);
+          }
+        }, deletedTasks);
+      }, deletedTasks);
+      console.table(deletedTasks);
+    }
+    return {
+      list: list,
+      remove: remove,
+      get: get,
+      save: save,
+      moveToList: moveToList,
+      clearDoneTasks: clearDoneTasks
     };
   })
   .factory('Vault', function($firebaseArray, $firebaseObject, $ionicPopup) {
