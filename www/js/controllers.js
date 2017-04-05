@@ -44,7 +44,8 @@ angular.module('strikethru.controllers', [])
   .controller('LivelistCtrl', function($scope, Todos) {
     $scope.todos = [];
   })
-  .controller('DumpCtrl', function($scope, Todos) {
+  .controller('DumpCtrl', function($scope, Todos, Setup) {
+
     $scope.todos = [];
   })
   .controller('VaultCtrl', function($scope, Vault, Confirm, LABELS) {
@@ -95,9 +96,11 @@ angular.module('strikethru.controllers', [])
       }
     }, true);
   })
-  .controller('TodoDetailCtrl', function($scope, $stateParams, Todos, Vault, $timeout, VaultPopup, CurrentListService, Confirm, LABELS) {
+  .controller('TodoDetailCtrl', function($scope, $stateParams, Todos, Vault, $timeout, VaultPopup, CurrentListService, Confirm, LABELS, Setup) {
     var timeout = null;
     var state = CurrentListService.get();
+    $scope.checkSetup = Setup.check;
+
     $scope.todo = $stateParams.todoId ? Todos.get($stateParams.todoId) : {
       list: state.list,
       listId: (state.id ? state.id : null)

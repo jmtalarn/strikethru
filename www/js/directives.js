@@ -1,5 +1,5 @@
 angular.module('strikethru.directives', [])
-  .directive('todoList', function() {
+  .directive('todoList', function(Setup) {
     return {
       restrict: 'E',
       scope: true,
@@ -7,8 +7,10 @@ angular.module('strikethru.directives', [])
       link: function($scope, $element, $attrs) {
         $scope.baseHref = location.hash;
       },
-      controller: function($scope, Todos, Confirm, LABELS) {
+      controller: function($scope, Todos, Confirm, LABELS, VaultPopup) {
 
+
+        $scope.checkSetup = Setup.check;
 
         $scope.todos = Todos.list();
 
@@ -21,6 +23,14 @@ angular.module('strikethru.directives', [])
           }, function(error) {
             console.error("Error deleting Todo task:", error);
           });
+        };
+        $scope.moveToList = function(list) {
+
+          VaultPopup.show($scope, list);
+
+        };
+        $scope.selectAndClose = function(vault) {
+          VaultPopup.selectAndClose($scope, vault);
         };
         $scope.onSwipeRight = function(todo) {
           todo.done = true;

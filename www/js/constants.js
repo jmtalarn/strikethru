@@ -13,4 +13,10 @@ angular.module('strikethru.constants', [])
       "TITLE": "Clear done tasks",
       "TEMPLATE": "Are you sure you want to delete all the done tasks?"
     }
-  }});
+  }})
+  .constant("SETUP", {
+    "STRIKETHRU" : {
+      "Lite" :  1000 ,
+      "Standard" :  2000 ,
+      "Pro" : 3000 }
+    });
