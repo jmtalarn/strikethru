@@ -45,7 +45,7 @@ angular.module('strikethru.directives', [])
   })
   .directive('readMore', function() {
     return {
-      restrict: 'A',
+      restrict: 'EA',
       scope: {
         text: '=',
         limit: '='
@@ -54,9 +54,10 @@ angular.module('strikethru.directives', [])
 
         var expanded = true;
 
+        $scope.largeText = $scope.text.length>$scope.limit;
         $scope.toggleText = function() {
 
-          if (expanded) {
+          if (expanded &&  $scope.largeText) {
             $scope.showedText = $scope.text.substr(0, $scope.limit);
             $scope.showedText += " ... ";
             $scope.linkText = "Read more ";
@@ -69,7 +70,7 @@ angular.module('strikethru.directives', [])
 
         };
       },
-      template: '{{showedText}}<a ng-click="toggleText()">{{linkText}}</a>',
+      template: '<p style="white-space: initial;height: auto;">{{showedText}}<a ng-click="toggleText()" ng-show="largeText">{{linkText}}</a></p>',
 
       link: function($scope, $element, $attrs) {
         $scope.toggleText();
