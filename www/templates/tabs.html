@@ -11,7 +11,7 @@ navigation history that also transitions its views in and out.
   </ion-tab>
 
   <!-- Vault Tab -->
-  <ion-tab title="Vault" icon-off="ion-android-apps" icon-on="ion-android-apps" ng-show="checkSetup('Standard')" href="#/tab/vault">
+  <ion-tab title="Vault" icon-off="ion-android-apps" icon-on="ion-android-apps" class="{{checkSetup('Standard')}}" href="#/tab/vault">
     <ion-nav-view name="tab-vault"></ion-nav-view>
   </ion-tab>
   <!-- Dump Tab -->

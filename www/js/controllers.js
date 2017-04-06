@@ -41,6 +41,16 @@ angular.module('strikethru.controllers', [])
 
 
   })
+  .controller('TabCtrl', function($scope, Setup) {
+
+    $scope.checkSetup=function(tab){
+        if (Setup.check(tab)){
+          return "ng-show";
+        }else{
+          return "ng-hide";
+        }
+    }
+  })
   .controller('LivelistCtrl', function($scope, Todos) {
     $scope.todos = [];
   })

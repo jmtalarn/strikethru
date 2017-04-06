@@ -106,24 +106,20 @@ angular.module('strikethru.services', [])
       }
     }
   })
-  .service('Setup', function($firebaseObject,SETUP) {
+  .service('Setup', function($firebaseObject,SETUP,$state) {
     var database = firebase.database();
     var userId = firebase.auth().currentUser.uid;
     var setupRef = firebase.database().ref('users/' + userId + '/setup');
 
-    var setup = null;
+    var setup = $firebaseObject(setupRef);
+    setup.$loaded().then(function() {
+        if (!setup.strikethru) {
+          setup.strikethru = "Standard";
+        }
+      });
 
     //Default values
     return {
-      load: function(){
-        setup = $firebaseObject(setupRef);
-        setup.$loaded().then(function() {
-          if (!setup.strikethru) {
-            setup.strikethru = "Standard";
-          }
-          return true;
-        });
-      },
       check: function(check){
           return (SETUP.STRIKETHRU[setup.strikethru]>=SETUP.STRIKETHRU[check])
       },
