@@ -9839,6 +9839,10 @@ h1.title {
   left: -1em;
   position: relative; }
 
+.todo-item .badge, .vault-item .badge {
+  height: 1.5em;
+  width: 2em; }
+
 .todo-item .item-options .icon, .vault-item .item-options .icon {
   display: block;
   left: 20%; }

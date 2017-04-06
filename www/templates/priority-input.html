@@ -5,10 +5,10 @@
   <ion-content>
     <ion-list>
       <ion-radio ng-repeat="priority in availablePriorityValues"
-          ng-model="currentListId"
+          ng-model="todo.priority"
           ng-selected="{{todo.priority}}"
-          ng-change="selectAndClose(todo)"
-          value="{{priority}}">
+          value="{{priority}}"
+          ng-click="selectPriorityAndClose(todo);">
         {{priority}}
       </ion-radio>
     </ion-list>

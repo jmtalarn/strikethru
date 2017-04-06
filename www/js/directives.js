@@ -7,7 +7,7 @@ angular.module('strikethru.directives', [])
       link: function($scope, $element, $attrs) {
         $scope.baseHref = location.hash;
       },
-      controller: function($scope, Todos, Confirm, LABELS, VaultPopup) {
+      controller: function($scope, Todos, Confirm, LABELS, VaultPopup, ChoosePriorityPopup) {
 
 
         $scope.checkSetup = Setup.check;
@@ -24,32 +24,30 @@ angular.module('strikethru.directives', [])
             console.error("Error deleting Todo task:", error);
           });
         };
+
         $scope.moveToList = function(list) {
-
           VaultPopup.show($scope, list);
-
         };
-        $scope.selectAndClose = function(vault) {
+        $scope.selectVaultAndClose = function(vault) {
           VaultPopup.selectAndClose($scope, vault);
         };
+
+        $scope.choosePriority = function($event){
+          $event.preventDefault();
+          ChoosePriorityPopup.show($scope);
+        }
+        $scope.selectPriorityAndClose = function(){
+            ChoosePriorityPopup.selectAndClose($scope);
+        }
+
         $scope.onSwipeRight = function(todo) {
           todo.done = true;
           Todos.save(todo);
-
         }
         $scope.hideButton = function(button) {
           return (button == $scope.currentList);
         }
       }
-    }
-  })
-  .directive('priorityInput',function(){
-    return {
-      restrict: 'E',
-      controller: function($scope,Todos,Setup) {},
-      templateUrl: 'templates/priority-input.html',
-
-      link: function($scope, $element, $attrs) { }
     }
   })
   .directive('readMore', function() {

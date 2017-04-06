@@ -125,7 +125,7 @@ angular.module('strikethru.controllers', [])
       VaultPopup.show($scope, list);
 
     };
-    $scope.selectAndClose = function(vault) {
+    $scope.selectVaultAndClose = function(vault) {
       VaultPopup.selectAndClose($scope, vault);
     };
     var update = function() {

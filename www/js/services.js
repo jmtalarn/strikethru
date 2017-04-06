@@ -1,4 +1,28 @@
 angular.module('strikethru.services', [])
+  .service('ChoosePriorityPopup', function($rootScope, $ionicModal, Todos) {
+    var showPopup = function($scope) {
+      $scope = $scope || $rootScope.$new();
+      $scope.todos = Todos.list();
+      $scope.availablePriorityValues = [1,2,3,4,5,6,7,8,9];
+
+
+      $ionicModal.fromTemplateUrl('templates/priority-input.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+      }).then(function(modal) {
+        $scope.modalPriority = modal;
+        $scope.modalPriority.show();
+      });
+
+    }
+    var selectAndClose = function($scope, vault) {
+      $scope.modalPriority.remove();
+    }
+    return {
+      show: showPopup,
+      selectAndClose: selectAndClose
+    }
+  })
   .service('VaultPopup', function($rootScope, $ionicModal, $state, Vault, Todos) {
 
     var moveToList = function(todo, list, listId, autosave) {
@@ -21,16 +45,20 @@ angular.module('strikethru.services', [])
         if (listId) {
           aTodo.listId = listId;
         }
-        Todos.save(aTodo).then(function(ref){
+        Todos.save(aTodo).then(function(ref) {
           console.log("Task moved between lists successfully");
           autosave.enabled = true;
-          var state = aTodo.list=='vault'?'tab.vault-todo-detail':"tab"+aTodo.list+"-detail";
-          var objParams = {todoId: ref.key};
-          if (aTodo.listId){ objParams.vaultId=aTodo.listId}
+          var state = aTodo.list == 'vault' ? 'tab.vault-todo-detail' : "tab" + aTodo.list + "-detail";
+          var objParams = {
+            todoId: ref.key
+          };
+          if (aTodo.listId) {
+            objParams.vaultId = aTodo.listId
+          }
           $state.go(state, objParams);
-        },function(){
-            console.error("Error moving task from list:", error);
-            autosave.enabled = true;
+        }, function() {
+          console.error("Error moving task from list:", error);
+          autosave.enabled = true;
         });
       });
     };
@@ -40,15 +68,15 @@ angular.module('strikethru.services', [])
       $scope = $scope || $rootScope.$new();
       $scope.vaultCategories = Vault.all();
       $scope.autosave.enabled = false;
-      $scope.currentListId = $scope.todo.listId?$scope.todo.listId:null;
+      $scope.currentListId = $scope.todo.listId ? $scope.todo.listId : null;
       if (list == 'vault' && $scope.vaultCategories.length > 0) {
 
         $ionicModal.fromTemplateUrl('templates/vault-popup.html', {
           scope: $scope,
           animation: 'slide-in-up'
         }).then(function(modal) {
-          $scope.modal = modal;
-          $scope.modal.show();
+          $scope.modalVault = modal;
+          $scope.modalVault.show();
         });
 
       } else {
@@ -57,7 +85,7 @@ angular.module('strikethru.services', [])
       }
     }
     var selectAndClose = function($scope, vault) {
-      $scope.modal.remove();
+      $scope.modalVault.remove();
       moveToList($scope.todo, 'vault', vault.$id, $scope.autosave);
     }
     return {
@@ -106,22 +134,22 @@ angular.module('strikethru.services', [])
       }
     }
   })
-  .service('Setup', function($firebaseObject,SETUP,$state) {
+  .service('Setup', function($firebaseObject, SETUP, $state) {
     var database = firebase.database();
     var userId = firebase.auth().currentUser.uid;
     var setupRef = firebase.database().ref('users/' + userId + '/setup');
 
     var setup = $firebaseObject(setupRef);
     setup.$loaded().then(function() {
-        if (!setup.strikethru) {
-          setup.strikethru = "Standard";
-        }
-      });
+      if (!setup.strikethru) {
+        setup.strikethru = "Standard";
+      }
+    });
 
     //Default values
     return {
-      check: function(check){
-          return (SETUP.STRIKETHRU[setup.strikethru]>=SETUP.STRIKETHRU[check])
+      check: function(check) {
+        return (SETUP.STRIKETHRU[setup.strikethru] >= SETUP.STRIKETHRU[check])
       },
       strikethru: function(value) {
         if (value) {
