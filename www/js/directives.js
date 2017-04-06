@@ -32,9 +32,9 @@ angular.module('strikethru.directives', [])
           VaultPopup.selectAndClose($scope, vault);
         };
 
-        $scope.choosePriority = function($event){
+        $scope.choosePriority = function($event,todo){
           $event.preventDefault();
-          ChoosePriorityPopup.show($scope);
+          ChoosePriorityPopup.show($scope, todo);
         }
         $scope.selectPriorityAndClose = function(){
             ChoosePriorityPopup.selectAndClose($scope);

@@ -16,7 +16,7 @@
           {{ todo.date | date:'HH:mm'}}
       </span>
     </p>
-    <span class="badge badge-assertive"  ng-click="choosePriority($event);" >{{todo.priority||" "}}</span>
+    <span class="badge badge-assertive"  ng-click="choosePriority($event,todo);" >{{todo.priority||" "}}</span>
     <i class="icon ion-chevron-right icon-accessory"></i>
 
     <div class="item-options">

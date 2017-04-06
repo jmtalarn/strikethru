@@ -1,7 +1,9 @@
 angular.module('strikethru.services', [])
   .service('ChoosePriorityPopup', function($rootScope, $ionicModal, Todos) {
-    var showPopup = function($scope) {
+
+    var showPopup = function($scope,todo) {
       $scope = $scope || $rootScope.$new();
+      $scope.todo = todo;
       $scope.todos = Todos.list();
       $scope.availablePriorityValues = [1,2,3,4,5,6,7,8,9];
 
@@ -15,7 +17,7 @@ angular.module('strikethru.services', [])
       });
 
     }
-    var selectAndClose = function($scope, vault) {
+    var selectAndClose = function($scope) {
       $scope.modalPriority.remove();
     }
     return {
