@@ -1,0 +1,17 @@
+<ion-modal-view>
+  <ion-header-bar  class="bar-positive">
+    <h1 class="title">Choose a priority</h1>
+  </ion-header-bar>
+  <ion-content>
+    <ion-list>
+      <ion-radio ng-repeat="priority in availablePriorityValues"
+          ng-model="currentListId"
+          ng-selected="{{todo.priority}}"
+          ng-change="selectAndClose(todo)"
+          value="{{priority}}">
+        {{priority}}
+      </ion-radio>
+    </ion-list>
+
+  </ion-content>
+</ion-modal-view>

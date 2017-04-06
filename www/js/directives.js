@@ -43,6 +43,15 @@ angular.module('strikethru.directives', [])
       }
     }
   })
+  .directive('priorityInput',function(){
+    return {
+      restrict: 'E',
+      controller: function($scope,Todos,Setup) {},
+      templateUrl: 'templates/priority-input.html',
+
+      link: function($scope, $element, $attrs) { }
+    }
+  })
   .directive('readMore', function() {
     return {
       restrict: 'EA',
