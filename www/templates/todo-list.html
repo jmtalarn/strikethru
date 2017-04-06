@@ -1,6 +1,6 @@
 <ion-list>
   <ion-item
-  class="item-remove-animate item-icon-right todo-item"
+  class="item-remove-animate item-icon-right item-button-right todo-item"
   ng-repeat="todo in todos" type="item-text-wrap"
   ng-class="{'done' : todo.done}"
   ng-href="{{baseHref}}/todo/{{todo.$id}}"
@@ -16,7 +16,8 @@
           {{ todo.date | date:'HH:mm'}}
       </span>
     </p>
-    <span class="badge badge-assertive"  ng-click="choosePriority($event,todo);" >{{todo.priority||" "}}</span>
+    <button class="button button-assertive title-button button-small"  ng-click="choosePriority($event,todo);">{{todo.priority||" "}}</button>
+    <!--span class="badge badge-assertive"  ng-click="choosePriority($event,todo);" >{{todo.priority||" "}}</span-->
     <i class="icon ion-chevron-right icon-accessory"></i>
 
     <div class="item-options">

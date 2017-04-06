@@ -106,7 +106,7 @@ angular.module('strikethru.controllers', [])
       }
     }, true);
   })
-  .controller('TodoDetailCtrl', function($scope, $stateParams, Todos, Vault, $timeout, VaultPopup, CurrentListService, Confirm, LABELS, Setup) {
+  .controller('TodoDetailCtrl', function($scope, $stateParams, Todos, Vault, $timeout, VaultPopup,ChoosePriorityPopup, CurrentListService, Confirm, LABELS, Setup) {
     var timeout = null;
     var state = CurrentListService.get();
     $scope.checkSetup = Setup.check;
@@ -119,11 +119,15 @@ angular.module('strikethru.controllers', [])
     $scope.autosave = {
       enabled: true
     };
-
+    $scope.choosePriority = function($event,todo){
+      $event.preventDefault();
+      ChoosePriorityPopup.show($scope, todo);
+    }
+    $scope.selectPriorityAndClose = function(){
+        ChoosePriorityPopup.selectAndClose($scope);
+    }
     $scope.moveToList = function(list) {
-
       VaultPopup.show($scope, list);
-
     };
     $scope.selectVaultAndClose = function(vault) {
       VaultPopup.selectAndClose($scope, vault);

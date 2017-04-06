@@ -3,9 +3,13 @@
   <ion-content class="todo-form">
     <input type="hidden" name="id" ng-model="todo.$id">
     <div class="list">
-      <label class="item item-input title">
-        <input type="text" placeholder="Task" ng-model="todo.title">
-      </label>
+      <div class="item item-input-inset title">
+        <label class="item-input-wrapper">
+          <input class="title-input" type="text" placeholder="Task" ng-model="todo.title">
+        </label>
+        <button class="button button-assertive title-button button-small"  ng-click="choosePriority($event,todo);">{{todo.priority||" "}}</button>
+      </div>
+
       <label class="item item-input description">
         <textarea placeholder="Additional information" ng-model="todo.description"></textarea>
       </label>
@@ -20,7 +24,7 @@
       </label>
     </div>
     <div class="padding">
-            Move task to
+      Move task to
     </div>
     <div class="button-bar">
 

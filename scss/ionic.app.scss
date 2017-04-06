@@ -39,17 +39,35 @@ h1.title {
   }
 }
 
-.todo-item,.vault-item {
-  &.done{
-    p,h2{  text-decoration: line-through; }
-
+.todo-item,
+.vault-item {
+  &.done {
+    h2,
+    p {
+      text-decoration: line-through;
+    }
   }
-  .no-duedate{
+
+  .title-button {
+    &:after {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      bottom: -6px;
+      left: -6px;
+      content: ' ';
+    }
+    border-radius: 50%;
+    font-weight: 400;
+  }
+
+  .no-duedate {
     font-style: oblique;
     font-size: 0.8em;
     left: -1em;
     position: relative;
   }
+
   .item-options {
     .icon {
       display: block;
@@ -64,18 +82,34 @@ h1.title {
   }
 }
 
-.todo-form,.vault-form {
+.todo-form,
+.vault-form {
   .title {
-    * { border: none; }
-    input {
-      font-size: 20px;
-      padding-bottom: 0.5em;
-      margin:2px 0;
+    * {
+      border: none;
+    }
+
+    .item-input-wrapper {
+      background-color: transparent;
+
+      input {
+        font-size: 20px;
+        padding-bottom: 0.5em;
+        left: -0.5em;
+        position: relative;
+      }
+    }
+
+    button {
+      border-radius: 50%;
+      font-weight: 400;
     }
   }
-  .initials{
+
+  .initials {
     font-size: 36px;
   }
+
   .description {
     textarea {
       height: 4em;
@@ -84,17 +118,19 @@ h1.title {
 
   .duedate {
     padding-left: 1em;
+
     * {
       border: none;
     }
-    label {
-      //font-weight: bold;
-      //font-size: 0.8em;
-    }
 
+    label {}
   }
-  .done{
-    padding-left: 0em;
-    .item-checkbox{border: none; }
+
+  .done {
+    padding-left: 0;
+
+    .item-checkbox {
+      border: none;
+    }
   }
 }

@@ -9830,44 +9830,80 @@ h1.title {
     position: relative;
     left: -1em; }
 
-.todo-item.done p, .todo-item.done h2, .vault-item.done p, .vault-item.done h2 {
+.todo-item.done h2,
+.todo-item.done p,
+.vault-item.done h2,
+.vault-item.done p {
   text-decoration: line-through; }
 
-.todo-item .no-duedate, .vault-item .no-duedate {
+.todo-item .title-button,
+.vault-item .title-button {
+  border-radius: 50%;
+  font-weight: 400; }
+  .todo-item .title-button:after,
+  .vault-item .title-button:after {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    bottom: -6px;
+    left: -6px;
+    content: ' '; }
+
+.todo-item .no-duedate,
+.vault-item .no-duedate {
   font-style: oblique;
   font-size: 0.8em;
   left: -1em;
   position: relative; }
 
-.todo-item .item-options .icon, .vault-item .item-options .icon {
+.todo-item .item-options .icon,
+.vault-item .item-options .icon {
   display: block;
   left: 20%; }
 
-.todo-item .item-options .label, .vault-item .item-options .label {
+.todo-item .item-options .label,
+.vault-item .item-options .label {
   display: block;
   font-size: 0.5em;
   margin: 0 auto; }
 
-.todo-form .title *, .vault-form .title * {
+.todo-form .title *,
+.vault-form .title * {
   border: none; }
 
-.todo-form .title input, .vault-form .title input {
-  font-size: 20px;
-  padding-bottom: 0.5em;
-  margin: 2px 0; }
+.todo-form .title .item-input-wrapper,
+.vault-form .title .item-input-wrapper {
+  background-color: transparent; }
+  .todo-form .title .item-input-wrapper input,
+  .vault-form .title .item-input-wrapper input {
+    font-size: 20px;
+    padding-bottom: 0.5em;
+    left: -0.5em;
+    position: relative; }
 
-.todo-form .initials, .vault-form .initials {
+.todo-form .title button,
+.vault-form .title button {
+  border-radius: 50%;
+  font-weight: 400; }
+
+.todo-form .initials,
+.vault-form .initials {
   font-size: 36px; }
 
-.todo-form .description textarea, .vault-form .description textarea {
+.todo-form .description textarea,
+.vault-form .description textarea {
   height: 4em; }
 
-.todo-form .duedate, .vault-form .duedate {
+.todo-form .duedate,
+.vault-form .duedate {
   padding-left: 1em; }
-  .todo-form .duedate *, .vault-form .duedate * {
+  .todo-form .duedate *,
+  .vault-form .duedate * {
     border: none; }
 
-.todo-form .done, .vault-form .done {
-  padding-left: 0em; }
-  .todo-form .done .item-checkbox, .vault-form .done .item-checkbox {
+.todo-form .done,
+.vault-form .done {
+  padding-left: 0; }
+  .todo-form .done .item-checkbox,
+  .vault-form .done .item-checkbox {
     border: none; }
