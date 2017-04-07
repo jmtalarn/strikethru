@@ -48,17 +48,19 @@ h1.title {
     }
   }
 
-  .title-button {
+  .button.title-button {
     &:after {
-      position: absolute;
-      top: -6px;
-      right: -6px;
-      bottom: -6px;
-      left: -6px;
-      content: ' ';
+      height: 42px;
+      width: 40px;
     }
+    right: 3em;
+    font-size: 12px;
     border-radius: 50%;
     font-weight: 400;
+    padding: 2px 4px 3px 10px;
+    min-width: 28px;
+    min-height: 30px;
+    line-height: 22px;
   }
 
   .no-duedate {

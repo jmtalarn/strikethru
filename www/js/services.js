@@ -1,11 +1,11 @@
 angular.module('strikethru.services', [])
   .service('ChoosePriorityPopup', function($rootScope, $ionicModal, Todos) {
 
-    var showPopup = function($scope,todo) {
+    var showPopup = function($scope, todo) {
       $scope = $scope || $rootScope.$new();
       $scope.todo = todo;
       $scope.todos = Todos.list();
-      $scope.availablePriorityValues = [1,2,3,4,5,6,7,8,9];
+      $scope.availablePriorityValues = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 
       $ionicModal.fromTemplateUrl('templates/priority-input.html', {
@@ -43,24 +43,29 @@ angular.module('strikethru.services', [])
         if (todo.done) {
           aTodo.done = todo.done;
         }
+        if (todo.priority) {
+          aTodo.priority = todo.priority;
+        }
         aTodo.list = list;
         if (listId) {
           aTodo.listId = listId;
         }
         Todos.save(aTodo).then(function(ref) {
           console.log("Task moved between lists successfully");
-          autosave.enabled = true;
-          var state = aTodo.list == 'vault' ? 'tab.vault-todo-detail' : "tab" + aTodo.list + "-detail";
-          var objParams = {
-            todoId: ref.key
-          };
+          if (autosave) {
+            autosave.enabled = true;
+          }
+          var state = aTodo.list == 'vault' ? 'tab.vault-detail' : "tab." + aTodo.list ;
+          var objParams = { };
           if (aTodo.listId) {
             objParams.vaultId = aTodo.listId
           }
-          $state.go(state, objParams);
+          $state.go(state, objParams, {location:'replace'});
         }, function() {
           console.error("Error moving task from list:", error);
-          autosave.enabled = true;
+          if (autosave) {
+            autosave.enabled = true;
+          }
         });
       });
     };
@@ -82,7 +87,7 @@ angular.module('strikethru.services', [])
         });
 
       } else {
-        moveToList($scope.todo, list, $scope.autosave);
+        moveToList($scope.todo, list, null, $scope.autosave);
 
       }
     }
@@ -105,8 +110,11 @@ angular.module('strikethru.services', [])
 
       confirmPopup.then(function(res) {
         if (res) {
+          if (autosave) {
+            autosave.enabled = true;
+          }
           return callback(item);
-          autosave.enabled = true;
+
         }
       });
     };

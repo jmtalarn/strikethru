@@ -9836,18 +9836,20 @@ h1.title {
 .vault-item.done p {
   text-decoration: line-through; }
 
-.todo-item .title-button,
-.vault-item .title-button {
+.todo-item .button.title-button,
+.vault-item .button.title-button {
+  right: 3em;
+  font-size: 12px;
   border-radius: 50%;
-  font-weight: 400; }
-  .todo-item .title-button:after,
-  .vault-item .title-button:after {
-    position: absolute;
-    top: -6px;
-    right: -6px;
-    bottom: -6px;
-    left: -6px;
-    content: ' '; }
+  font-weight: 400;
+  padding: 2px 4px 3px 10px;
+  min-width: 28px;
+  min-height: 30px;
+  line-height: 22px; }
+  .todo-item .button.title-button:after,
+  .vault-item .button.title-button:after {
+    height: 42px;
+    width: 40px; }
 
 .todo-item .no-duedate,
 .vault-item .no-duedate {
