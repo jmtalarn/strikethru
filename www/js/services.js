@@ -74,7 +74,9 @@ angular.module('strikethru.services', [])
     var showPopup = function($scope, list) {
       $scope = $scope || $rootScope.$new();
       $scope.vaultCategories = Vault.all();
-      $scope.autosave.enabled = false;
+      if ($scope.autosave){
+        $scope.autosave.enabled = false;
+      }
       $scope.currentListId = $scope.todo.listId ? $scope.todo.listId : null;
       if (list == 'vault' && $scope.vaultCategories.length > 0) {
 
