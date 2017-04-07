@@ -106,7 +106,7 @@ angular.module('strikethru.controllers', [])
       }
     }, true);
   })
-  .controller('TodoDetailCtrl', function($scope, $stateParams, Todos, Vault, $timeout, VaultPopup,ChoosePriorityPopup, CurrentListService, Confirm, LABELS, Setup) {
+  .controller('TodoDetailCtrl', function($scope, $stateParams, Todos, Vault, $timeout, VaultPopup,ChoosePriorityPopup, CurrentListService, Confirm, LABELS, Setup, $state) {
     var timeout = null;
     var state = CurrentListService.get();
     $scope.checkSetup = Setup.check;
@@ -154,14 +154,17 @@ angular.module('strikethru.controllers', [])
       if (timeout) {
         $timeout.cancel(timeout);
       }
-      Confirm.show(LABELS.DELETE.TODO.TITLE, LABELS.DELETE.TODO.TEMPLATE, Todos.remove, todo, $scope.autosave)
-      .then(function(ref) {
-        // data has been deleted locally and in the database
-        console.log("Todo task  successfully removed");
-        clearObject(todo);
-      }, function(error) {
-        console.error("Error deleting Todo task:", error);
-      });
+      Confirm.show(LABELS.DELETE.TODO.TITLE, LABELS.DELETE.TODO.TEMPLATE,
+        function(el){
+          Todos.remove(el);
+          var state = el.list == 'vault' ? 'tab.vault-detail' : "tab." + el.list ;
+          var objParams = { };
+          if (el.listId) {
+            objParams.vaultId = el.listId
+          }
+          $state.go(state, objParams, {location:'replace'});
+        }, todo, $scope.autosave)
+
     };
 
     $scope.hideButton = function(button) {
