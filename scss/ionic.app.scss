@@ -136,3 +136,12 @@ h1.title {
     }
   }
 }
+
+.list {
+  .item.blocktext {
+    p{
+      white-space: initial;
+      height: auto;
+    }
+  }
+}
