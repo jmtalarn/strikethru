@@ -90,13 +90,14 @@ angular.module('strikethru.services', [])
     };
 
 
-    var showPopup = function($scope, list) {
+    var showPopup = function($scope,todo, list) {
       $scope = $scope || $rootScope.$new();
       $scope.vaultCategories = Vault.all();
       if ($scope.autosave) {
         $scope.autosave.enabled = false;
       }
-      $scope.currentListId = $scope.todo.listId ? $scope.todo.listId : null;
+      $scope.todo = todo;
+      $scope.currentListId = todo.listId ? todo.listId : null;
       if (list == 'vault' && $scope.vaultCategories.length > 0) {
 
         $ionicModal.fromTemplateUrl('templates/vault-popup.html', {

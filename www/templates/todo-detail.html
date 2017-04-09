@@ -13,7 +13,7 @@
       <label class="item item-input description">
         <textarea placeholder="Additional information" ng-model="todo.description"></textarea>
       </label>
-      <div class="row duedate">
+      <div class="row duedate" ng-show="checkSetup('Pro')">
         <label class="col item item-input">Due date</label>
         <div class="item col col-50" ion-datetime-picker ng-model="todo.date">
           {{ (todo.date |date: "dd-MM-yyyy H:mm") || "No due date defined" }}
@@ -31,15 +31,15 @@
     </div>
     <div class="button-bar">
 
-      <button class="button button-energized" ng-hide="hideButton('livelist')" ng-click="moveToList('livelist')">
+      <button class="button button-energized" ng-hide="hideButton('livelist')" ng-click="moveToList(todo, 'livelist')">
         <i class="icon ion-android-checkbox"></i>
         <div class="label">Live list</div>
       </ion-option-button>
-      <button class="button button-calm" ng-hide="hideButton('vault')" ng-show="checkSetup('Standard')" ng-click="moveToList('vault')">
+      <button class="button button-calm" ng-hide="hideButton('vault')" ng-show="checkSetup('Standard')" ng-click="moveToList(todo, 'vault')">
         <i class="icon ion-android-apps"></i>
         <div class="label">Vault</div>
       </ion-option-button>
-      <button class="button button-balanced" ng-hide="hideButton('dump')"  ng-click="moveToList('dump')">
+      <button class="button button-balanced" ng-hide="hideButton('dump')"  ng-click="moveToList(todo, 'dump')">
         <i class="icon ion-android-bulb"></i>
         <div class="label">Dump</div>
       </ion-option-button>

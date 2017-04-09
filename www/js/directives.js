@@ -7,7 +7,7 @@ angular.module('strikethru.directives', [])
       link: function($scope, $element, $attrs) {
         $scope.baseHref = location.hash;
       },
-      controller: function($scope, Todos, Confirm, LABELS, VaultPopup, ChoosePriorityPopup, Calendar) {
+      controller: function($scope, Todos, Confirm, LABELS, VaultPopup, ChoosePriorityPopup, Calendar, Setup) {
 
 
         $scope.checkSetup = Setup.check;
@@ -18,8 +18,8 @@ angular.module('strikethru.directives', [])
           Confirm.show(LABELS.DELETE.TODO.TITLE, LABELS.DELETE.TODO.TEMPLATE, Todos.remove, todo, $scope.autosave);
         };
 
-        $scope.moveToList = function(list) {
-          VaultPopup.show($scope, list);
+        $scope.moveToList = function(todo, list) {
+          VaultPopup.show($scope,todo, list);
         };
         $scope.selectVaultAndClose = function(vault) {
           VaultPopup.selectAndClose($scope, vault);
