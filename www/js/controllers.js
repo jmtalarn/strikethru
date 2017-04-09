@@ -53,10 +53,11 @@ angular.module('strikethru.controllers', [])
   })
   .controller('LivelistCtrl', function($scope, Todos) {
     $scope.todos = [];
+    $scope.currentList="livelist";
   })
   .controller('DumpCtrl', function($scope, Todos, Setup) {
-
     $scope.todos = [];
+    $scope.currentList="dump";
   })
   .controller('VaultCtrl', function($scope, Vault, Confirm, LABELS) {
 
@@ -68,7 +69,7 @@ angular.module('strikethru.controllers', [])
 
   .controller('VaultDetailCtrl', function($scope, $stateParams, Vault, Todos, $timeout) {
     var timeout = null;
-
+    $scope.currentList="vault";
     $scope.vault = $stateParams.vaultId ? Vault.get($stateParams.vaultId) : {};
 
     $scope.generateInitials = function() {
