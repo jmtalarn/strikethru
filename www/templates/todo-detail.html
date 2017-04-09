@@ -14,9 +14,12 @@
         <textarea placeholder="Additional information" ng-model="todo.description"></textarea>
       </label>
       <div class="row duedate">
-        <label class="col col-25 item item-input">Due date</label>
-        <div class="item col col-75" ion-datetime-picker ng-model="todo.date">
+        <label class="col item item-input">Due date</label>
+        <div class="item col col-50" ion-datetime-picker ng-model="todo.date">
           {{ (todo.date |date: "dd-MM-yyyy H:mm") || "No due date defined" }}
+        </div>
+        <div class="col text-right">
+          <button class="button icon ion-android-calendar button-positive button-small" ng-click="createEvent()"></button>
         </div>
       </div>
       <label class="item item-input done">

@@ -7,7 +7,7 @@ angular.module('strikethru.directives', [])
       link: function($scope, $element, $attrs) {
         $scope.baseHref = location.hash;
       },
-      controller: function($scope, Todos, Confirm, LABELS, VaultPopup, ChoosePriorityPopup) {
+      controller: function($scope, Todos, Confirm, LABELS, VaultPopup, ChoosePriorityPopup, Calendar) {
 
 
         $scope.checkSetup = Setup.check;
@@ -36,6 +36,9 @@ angular.module('strikethru.directives', [])
         $scope.onSwipeRight = function(todo) {
           todo.done = true;
           Todos.save(todo);
+        }
+        $scope.createEvent = function(todo){
+          Calendar.createEvent(todo);
         }
         $scope.hideButton = function(button) {
           return (button == $scope.currentList);

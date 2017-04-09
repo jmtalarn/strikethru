@@ -1,4 +1,21 @@
 angular.module('strikethru.services', [])
+  .service('Calendar', function($cordovaCalendar) {
+    return {
+      createEvent: function(todo) {
+        $cordovaCalendar.createEventInteractively({
+          title: todo.title,
+
+          notes: todo.description,
+          startDate: todo.date,
+          endDate: todo.date
+        }).then(function(result) {
+          console.log("Event created successfully");
+        }, function(err) {
+          console.error("There was an error: " + err);
+        });
+      }
+    }
+  })
   .service('ChoosePriorityPopup', function($rootScope, $ionicModal, Todos) {
 
     var showPopup = function($scope, todo) {
@@ -55,12 +72,14 @@ angular.module('strikethru.services', [])
           if (autosave) {
             autosave.enabled = true;
           }
-          var state = aTodo.list == 'vault' ? 'tab.vault-detail' : "tab." + aTodo.list ;
-          var objParams = { };
+          var state = aTodo.list == 'vault' ? 'tab.vault-detail' : "tab." + aTodo.list;
+          var objParams = {};
           if (aTodo.listId) {
             objParams.vaultId = aTodo.listId
           }
-          $state.go(state, objParams, {location:'replace'});
+          $state.go(state, objParams, {
+            location: 'replace'
+          });
         }, function() {
           console.error("Error moving task from list:", error);
           if (autosave) {
@@ -74,7 +93,7 @@ angular.module('strikethru.services', [])
     var showPopup = function($scope, list) {
       $scope = $scope || $rootScope.$new();
       $scope.vaultCategories = Vault.all();
-      if ($scope.autosave){
+      if ($scope.autosave) {
         $scope.autosave.enabled = false;
       }
       $scope.currentListId = $scope.todo.listId ? $scope.todo.listId : null;
