@@ -16,14 +16,17 @@ angular.module('strikethru.services', [])
       }
     }
   })
-  .service('ChoosePriorityPopup', function($rootScope, $ionicModal, Todos) {
+  .service('ChoosePriorityPopup', function($rootScope, $ionicModal, Todos, Setup) {
 
     var showPopup = function($scope, todo) {
       $scope = $scope || $rootScope.$new();
       $scope.todo = todo;
       $scope.todos = Todos.list();
-      $scope.availablePriorityValues = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
+      if (Setup.rule135()) {
+        $scope.availablePriorityValues = [1, 3, 5];
+      } else {
+        $scope.availablePriorityValues = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+      }
 
       $ionicModal.fromTemplateUrl('templates/priority-input.html', {
         scope: $scope,
@@ -90,7 +93,7 @@ angular.module('strikethru.services', [])
     };
 
 
-    var showPopup = function($scope,todo, list) {
+    var showPopup = function($scope, todo, list) {
       $scope = $scope || $rootScope.$new();
       $scope.vaultCategories = Vault.all();
       if ($scope.autosave) {
@@ -193,7 +196,7 @@ angular.module('strikethru.services', [])
         if (value) {
           setup.rule135 = value;
         }
-        return setup.rule135 || false; //Lite|Standard|Pro
+        return setup.rule135 || false;
       },
 
       syncInScope: function($scope) {
