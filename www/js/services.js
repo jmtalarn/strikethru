@@ -212,8 +212,8 @@ angular.module('strikethru.services', [])
     var dumpRef = firebase.database().ref('users/' + userId + '/todos').child('dump');
     var vaultRef = firebase.database().ref('users/' + userId + '/todos').child('vault');
 
-    var livelist = $firebaseArray(livelistRef);
-    var dump = $firebaseArray(dumpRef);
+    var livelist = $firebaseArray(livelistRef.orderByChild("priority"));
+    var dump = $firebaseArray(dumpRef.orderByChild("priority"));
     var vault = {};
 
     var getArray = function(list, vaultId) {
@@ -227,7 +227,7 @@ angular.module('strikethru.services', [])
         } else {
           var userId = firebase.auth().currentUser.uid;
           var vaultRef = firebase.database().ref('users/' + userId + '/todos/vault/' + vaultId).child('list');
-          vault[vaultId] = $firebaseArray(vaultRef);
+          vault[vaultId] = $firebaseArray(vaultRef.orderByChild("priority"));
         }
         return vault[vaultId];
       }

@@ -30,6 +30,7 @@ angular.module('strikethru.directives', [])
           ChoosePriorityPopup.show($scope, todo);
         }
         $scope.selectPriorityAndClose = function(){
+            Todos.save($scope.todo);
             ChoosePriorityPopup.selectAndClose($scope);
         }
 
