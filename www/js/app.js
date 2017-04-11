@@ -1,5 +1,5 @@
 
-angular.module('strikethru', ['ionic', 'firebase','ngCordova', 'strikethru.controllers', 'strikethru.services', 'strikethru.directives','strikethru.constants', "ion-datetime-picker"])
+angular.module('strikethru', ['ionic', 'firebase','ngCordova', 'strikethru.controllers', 'strikethru.services', 'strikethru.directives','strikethru.constants', "ion-datetime-picker",'ionic.native'])
   .constant('FIREBASE_ROOT', 'https://strikethru-b4a44.firebaseio.com')
   .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {

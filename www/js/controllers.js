@@ -2,7 +2,7 @@ angular.module('strikethru.controllers', [])
   /*
       ionicSideMenuDelegate : used to access the slidable functionality of the menu drawer
   */
-  .controller('loginCtrl', function($scope, $ionicHistory, $state) {
+  .controller('loginCtrl', function($scope, $ionicHistory, $state, $cordovaGooglePlus) {
     //Check if user already logged in
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
@@ -27,15 +27,49 @@ angular.module('strikethru.controllers', [])
       });
     }
     $scope.loginGoogle = function() {
-      var auth = firebase.auth();
+      $cordovaGooglePlus.login({})
+          .then(function(userData) {
+            console.log('good');
 
-      var provider = new firebase.auth.GoogleAuthProvider();
-      auth.signInWithPopup(provider).then(function(result) {
-        console.log(result.user);
-        var uid = result.user.uid;
-      }).catch(function(error) {
-        console.error("Authentication failed:", error);
-      });
+
+            var provider = firebase.auth.GoogleAuthProvider.credential(userData.idToken);
+            firebase.auth().signInWithCredential(provider)
+                 .then((success) => {
+                   console.log("Firebase success: " + JSON.stringify(success));
+                   this.displayAlert(JSON.stringify(success),"signInWithCredential successful")
+                   this.userProfile = success;
+
+                 })
+                 .catch((error) => {
+                   console.log("Firebase failure: " + JSON.stringify(error));
+                       this.displayAlert(error,"signInWithCredential failed")
+                 });
+
+          }, function(err) {
+            console.log('error');
+            console.log(err);
+            if(err=="cordova_not_available"){
+              var auth = firebase.auth();
+
+              var provider = new firebase.auth.GoogleAuthProvider();
+              auth.signInWithPopup(provider).then(function(result) {
+                console.log(result.user);
+                var uid = result.user.uid;
+              }).catch(function(error) {
+                console.error("Authentication failed:", error);
+              });
+            }
+          });
+
+      // var auth = firebase.auth();
+      //
+      // var provider = new firebase.auth.GoogleAuthProvider();
+      // auth.signInWithPopup(provider).then(function(result) {
+      //   console.log(result.user);
+      //   var uid = result.user.uid;
+      // }).catch(function(error) {
+      //   console.error("Authentication failed:", error);
+      // });
 
     };
 
