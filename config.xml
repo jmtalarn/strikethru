@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.ionicframework.strikethru406256" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>strikethru</name>
+    <name>Strikethru</name>
     <description>
         An Ionic Framework and Cordova project.
     </description>
@@ -72,6 +72,6 @@
     </platform>
     <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
     <plugin name="cordova-plugin-googleplus" spec="~5.1.1">
-        <variable name="REVERSED_CLIENT_ID" value="219119179196-ptttt903o4sbt2o9uq5ho3tmei4epi17" />
+        <variable name="REVERSED_CLIENT_ID" value="" />
     </plugin>
 </widget>

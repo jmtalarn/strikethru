@@ -27,7 +27,7 @@ angular.module('strikethru.controllers', [])
       });
     }
     $scope.loginGoogle = function() {
-      $cordovaGooglePlus.login({})
+      $cordovaGooglePlus.login({'webClientId': '219119179196-6bab0a9s9h2kef3bidt31n6ml2iaatq4.apps.googleusercontent.com', 'offline': true})
           .then(function(userData) {
             console.log('good');
 
