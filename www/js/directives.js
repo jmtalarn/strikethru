@@ -19,26 +19,26 @@ angular.module('strikethru.directives', [])
         };
 
         $scope.moveToList = function(todo, list) {
-          VaultPopup.show($scope,todo, list);
+          VaultPopup.show($scope, todo, list);
         };
         $scope.selectVaultAndClose = function(vault) {
           VaultPopup.selectAndClose($scope, vault);
         };
 
-        $scope.choosePriority = function($event,todo){
+        $scope.choosePriority = function($event, todo) {
           $event.preventDefault();
           ChoosePriorityPopup.show($scope, todo);
         }
-        $scope.selectPriorityAndClose = function(){
-            Todos.save($scope.todo);
-            ChoosePriorityPopup.selectAndClose($scope);
+        $scope.selectPriorityAndClose = function() {
+          Todos.save($scope.todo);
+          ChoosePriorityPopup.selectAndClose($scope);
         }
 
         $scope.onSwipeRight = function(todo) {
           todo.done = true;
           Todos.save(todo);
         }
-        $scope.createEvent = function(todo){
+        $scope.createEvent = function(todo) {
           Calendar.createEvent(todo);
         }
         $scope.hideButton = function(button) {
@@ -57,22 +57,24 @@ angular.module('strikethru.directives', [])
       controller: function($scope) {
 
         var expanded = true;
-
-        $scope.largeText = $scope.text.length>$scope.limit;
+        if ($scope.text) {
+          $scope.largeText = $scope.text.length > $scope.limit;
+        }
         $scope.toggleText = function() {
-
-          if (expanded &&  $scope.largeText) {
-            $scope.showedText = $scope.text.substr(0, $scope.limit);
-            $scope.showedText += " ... ";
-            $scope.linkText = "Read more ";
-            expanded = false;
-          } else {
-            $scope.showedText = $scope.text;
-            $scope.linkText = " Read less "
-            expanded = true;
+          if ($scope.text) {
+            if (expanded && $scope.largeText) {
+              $scope.showedText = $scope.text.substr(0, $scope.limit);
+              $scope.showedText += " ... ";
+              $scope.linkText = "Read more ";
+              expanded = false;
+            } else {
+              $scope.showedText = $scope.text;
+              $scope.linkText = " Read less "
+              expanded = true;
+            }
           }
+        }
 
-        };
       },
       template: '<p style="white-space: initial;height: auto;">{{showedText}}<a ng-click="toggleText()" ng-show="largeText">{{linkText}}</a></p>',
 

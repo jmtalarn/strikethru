@@ -47,7 +47,9 @@ h1.title {
       text-decoration: line-through;
     }
   }
-
+  .item-complex.item-icon-right .item-content {
+      padding-right: 0;
+  }
   .button.title-button {
     &:after {
       height: 42px;
@@ -108,7 +110,7 @@ h1.title {
     }
   }
 
-  .initials {
+  .initials input{
     font-size: 36px;
   }
 

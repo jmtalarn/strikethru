@@ -9836,6 +9836,10 @@ h1.title {
 .vault-item.done p {
   text-decoration: line-through; }
 
+.todo-item .item-complex.item-icon-right .item-content,
+.vault-item .item-complex.item-icon-right .item-content {
+  padding-right: 0; }
+
 .todo-item .button.title-button,
 .vault-item .button.title-button {
   right: 3em;
@@ -9888,8 +9892,8 @@ h1.title {
   border-radius: 50%;
   font-weight: 400; }
 
-.todo-form .initials,
-.vault-form .initials {
+.todo-form .initials input,
+.vault-form .initials input {
   font-size: 36px; }
 
 .todo-form .description textarea,
