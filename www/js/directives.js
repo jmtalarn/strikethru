@@ -47,9 +47,25 @@ angular.module('strikethru.directives', [])
       }
     }
   })
+  .directive('growingTextarea', function(){
+    return{
+      restrict: 'A',
+      scope:{'ngModel':'=' },
+      link: function($scope, $element, $attrs) {
+        $scope.$watch('ngModel', function() {
+          updateTextArea($element);
+        });
+        var updateTextArea = function(element) {
+          element[0].style.height = element[0].scrollHeight + "px";
+        }
+        updateTextArea($element);
+
+      }
+    }
+  })
   .directive('readMore', function() {
     return {
-      restrict: 'EA',
+      restrict: 'E',
       scope: {
         text: '=',
         limit: '='
