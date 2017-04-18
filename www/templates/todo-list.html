@@ -4,7 +4,8 @@
   ng-repeat="todo in todos" type="item-text-wrap"
   ng-class="{'done' : todo.done}"
   ng-href="{{baseHref}}/todo/{{todo.$id}}"
-  on-swipe-right="onSwipeRight(todo)">
+  on-swipe-right="onSwipeRight(todo,$event)"
+  on-swipe-left="onSwipeLeft(todo)">
 
     <h2>{{todo.title}}</h2>
     <p>{{todo.description}}</p>

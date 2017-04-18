@@ -33,10 +33,19 @@ angular.module('strikethru.directives', [])
           Todos.save($scope.todo);
           ChoosePriorityPopup.selectAndClose($scope);
         }
+        $scope.openOptions = {};
+        $scope.onSwipeLeft = function(todo){
+          $scope.openOptions[todo.$id] = true;
+        }
+        $scope.onSwipeRight = function(todo,event) {
+          if ($scope.openOptions[todo.$id]){
+            $scope.openOptions[todo.$id] = false;
+          }else{
 
-        $scope.onSwipeRight = function(todo) {
-          todo.done = true;
-          Todos.save(todo);
+            todo.done = true;
+            Todos.save(todo);
+          }
+
         }
         $scope.createEvent = function(todo) {
           Calendar.createEvent(todo);
