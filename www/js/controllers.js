@@ -165,7 +165,7 @@ angular.module('strikethru.controllers', [])
         ChoosePriorityPopup.selectAndClose($scope);
     }
     $scope.moveToList = function(list) {
-      VaultPopup.show($scope, list);
+      VaultPopup.show($scope,$scope.todo, list);
     };
     $scope.selectVaultAndClose = function(vault) {
       VaultPopup.selectAndClose($scope, vault);
