@@ -23,6 +23,13 @@ h1.title {
   font-weight: bold;
 }
 
+.login-container {
+    display: -webkit-flex;
+    -webkit-flex-direction: column;
+    height: 100%;
+
+}
+
 .item-date {
   color: $light;
 
@@ -47,9 +54,11 @@ h1.title {
       text-decoration: line-through;
     }
   }
+
   .item-complex.item-icon-right .item-content {
-      padding-right: 0;
+    padding-right: 0;
   }
+
   .button.title-button {
     &:after {
       height: 42px;
@@ -112,7 +121,7 @@ h1.title {
     }
   }
 
-  .initials input{
+  .initials input {
     font-size: 36px;
   }
 
@@ -143,7 +152,7 @@ h1.title {
 
 .list {
   .item.blocktext {
-    p{
+    p {
       white-space: initial;
       height: auto;
     }

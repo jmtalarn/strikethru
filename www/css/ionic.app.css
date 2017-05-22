@@ -9819,6 +9819,11 @@ h1.title {
   color: #fff;
   font-weight: bold; }
 
+.login-container {
+  display: -webkit-flex;
+  -webkit-flex-direction: column;
+  height: 100%; }
+
 .item-date {
   color: #fff; }
   .item-date .icon {
