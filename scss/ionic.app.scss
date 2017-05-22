@@ -24,11 +24,12 @@ h1.title {
 }
 
 .login-container {
-    display: -webkit-flex;
-    -webkit-flex-direction: column;
-    height: 100%;
-    color: white;
+  color: white;
 
+  .bottom {
+    position: relative;
+    top: 20em;
+  }
 }
 
 .item-date {

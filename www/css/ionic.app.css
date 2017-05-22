@@ -9820,10 +9820,10 @@ h1.title {
   font-weight: bold; }
 
 .login-container {
-  display: -webkit-flex;
-  -webkit-flex-direction: column;
-  height: 100%;
   color: white; }
+  .login-container .bottom {
+    position: relative;
+    top: 20em; }
 
 .item-date {
   color: #fff; }
