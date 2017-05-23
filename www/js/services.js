@@ -2,13 +2,13 @@ angular.module('strikethru.services', [])
   .service('Calendar', function($cordovaCalendar) {
     return {
       createEvent: function(todo) {
-        $cordovaCalendar.createEventInteractively({
-          title: todo.title,
-
-          notes: todo.description,
-          startDate: todo.date,
-          endDate: todo.date
-        }).then(function(result) {
+        $cordovaCalendar.createEventInteractively(
+          todo.title,
+          null,
+          todo.description,
+          todo.date,
+          todo.date
+        ).then(function(result) {
           console.log("Event created successfully");
         }, function(err) {
           console.error("There was an error: " + err);
