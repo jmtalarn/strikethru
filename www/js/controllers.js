@@ -1,7 +1,5 @@
 angular.module('strikethru.controllers', [])
-  /*
-      ionicSideMenuDelegate : used to access the slidable functionality of the menu drawer
-  */
+
   .controller('loginCtrl', function($scope, $ionicHistory, $state, $cordovaGooglePlus) {
     //Check if user already logged in
     firebase.auth().onAuthStateChanged(function(user) {

@@ -1,8 +1,15 @@
-
-angular.module('strikethru', ['ionic', 'firebase','ngCordova', 'strikethru.controllers', 'strikethru.services', 'strikethru.directives','strikethru.constants', "ion-datetime-picker",'ionic.native'])
+angular.module('strikethru', ['ionic', 'firebase', 'ngCordova', 'strikethru.controllers', 'strikethru.services', 'strikethru.directives', 'strikethru.constants', "ion-datetime-picker", 'ionic.native'])
   .constant('FIREBASE_ROOT', 'https://strikethru-b4a44.firebaseio.com')
   .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
+      //https://forum.ionicframework.com/t/firebas-and-ionic-issues/48922/4
+      document.addEventListener("resume", function() {
+        firebase.database().goOnline();
+      }, false);
+
+      document.addEventListener("pause", function() {
+        firebase.database().goOffline();
+      }, false);
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
       if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
