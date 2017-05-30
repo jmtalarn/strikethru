@@ -13,12 +13,6 @@ angular.module('strikethru.controllers', [])
           location: "replace"
         });
 
-      }else{
-        console.error("No user onAuthStateChanged");
-        this.displayAlert(new Error("No user onAuthStateChanged"), "No user onAuthStateChanged")
-         $state.go('login', {}, {
-          location: "replace"
-        });
       }
     });
     $scope.logout = function() {

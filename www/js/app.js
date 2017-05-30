@@ -1,6 +1,6 @@
 angular.module('strikethru', ['ionic', 'firebase', 'ngCordova', 'strikethru.controllers', 'strikethru.services', 'strikethru.directives', 'strikethru.constants', "ion-datetime-picker", 'ionic.native'])
   .constant('FIREBASE_ROOT', 'https://strikethru-b4a44.firebaseio.com')
-  .run(function($ionicPlatform) {
+  .run(function($ionicPlatform, $rootScope, $ionicLoading) {
     $ionicPlatform.ready(function() {
       //https://forum.ionicframework.com/t/firebas-and-ionic-issues/48922/4
       document.addEventListener("resume", function() {
@@ -21,7 +21,7 @@ angular.module('strikethru', ['ionic', 'firebase', 'ngCordova', 'strikethru.cont
         // org.apache.cordova.statusbar required
         StatusBar.styleDefault();
       }
-    });
+    })
   })
   .config(function($stateProvider, $urlRouterProvider) {
 
@@ -34,6 +34,10 @@ angular.module('strikethru', ['ionic', 'firebase', 'ngCordova', 'strikethru.cont
         url: '/login',
         templateUrl: 'templates/login.html',
         controller: 'loginCtrl'
+      })
+      .state('loading', {
+        url: '/loading',
+        templateUrl: 'templates/loading.html'
       })
       // setup an abstract state for the tabs directive
       .state('tab', {
