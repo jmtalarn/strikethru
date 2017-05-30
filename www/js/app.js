@@ -37,7 +37,8 @@ angular.module('strikethru', ['ionic', 'firebase', 'ngCordova', 'strikethru.cont
       })
       .state('loading', {
         url: '/loading',
-        templateUrl: 'templates/loading.html'
+        templateUrl: 'templates/loading.html',
+        controller: 'LoadingCtrl'
       })
       // setup an abstract state for the tabs directive
       .state('tab', {

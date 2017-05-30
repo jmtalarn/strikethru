@@ -169,18 +169,30 @@ angular.module('strikethru.services', [])
       }
     }
   })
-  .service('Setup', function($firebaseObject, SETUP, $state) {
+  .factory('Setup', function($firebaseObject, SETUP, $state, $rootScope) {
+
+
     var database = firebase.database();
+
     var userId = firebase.auth().currentUser.uid;
     var setupRef = firebase.database().ref('users/' + userId + '/setup');
 
     var setup = $firebaseObject(setupRef);
-    setup.$loaded().then(function() {
-      if (!setup.strikethru) {
-        setup.strikethru = "Standard";
+
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+
+        setup.$loaded().then(function() {
+          if (!setup.strikethru) {
+            setup.strikethru = "Standard";
+          }
+          $state.go('tab.livelist', {}, {
+            location: "replace"
+          });
+
+        });
       }
     });
-
     //Default values
     return {
       check: function(check) {
@@ -197,12 +209,13 @@ angular.module('strikethru.services', [])
           setup.rule135 = value;
         }
         return setup.rule135 || false;
-      },
-
-      syncInScope: function($scope) {
-
-        setup.$bindTo($scope, "setup").then(function() {});
       }
+      // ,
+      //
+      // syncInScope: function($scope) {
+      //
+      //   setup.$bindTo($scope, "setup").then(function() {});
+      // }
     }
   })
   .factory('Todos', function($firebaseArray, CurrentListService) {

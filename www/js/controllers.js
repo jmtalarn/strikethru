@@ -2,8 +2,8 @@ angular.module('strikethru.controllers', [])
 
   .controller('loginCtrl', function($scope, $ionicHistory, $state, $cordovaGooglePlus) {
     //Check if user already logged in
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
+    //firebase.auth().onAuthStateChanged(function(user) {
+      if (firebase.auth().currentUser) {
         //Removes back link to login page
         $ionicHistory.nextViewOptions({
           historyRoot: true
@@ -13,8 +13,12 @@ angular.module('strikethru.controllers', [])
           location: "replace"
         });
 
+      }else{
+        $state.go('login', {}, {
+          location: "replace"
+        });
       }
-    });
+    //});
     $scope.logout = function() {
       firebase.auth().signOut().then(function() {
         $state.go('login', {}, {
@@ -40,6 +44,9 @@ angular.module('strikethru.controllers', [])
               this.displayAlert(JSON.stringify(success), "signInWithCredential successful")
               this.userProfile = success;
 
+              $state.go('loading', {}, {
+                location: "replace"
+              });
             })
             .catch((error) => {
               console.log("Firebase failure: " + JSON.stringify(error));
@@ -54,8 +61,12 @@ angular.module('strikethru.controllers', [])
 
             var provider = new firebase.auth.GoogleAuthProvider();
             auth.signInWithPopup(provider).then(function(result) {
-              console.log(result.user);
-              var uid = result.user.uid;
+              console.log("Logged in via firebase.auth.GoogleAuthProvider()");
+              //console.log(result.user);
+              //var uid = result.user.uid;
+              $state.go('loading', {}, {
+                location: "replace"
+              });
             }).catch(function(error) {
               console.error("Authentication failed:", error);
             });
@@ -76,6 +87,9 @@ angular.module('strikethru.controllers', [])
 
 
   })
+  .controller('LoadingCtrl', function(Setup){
+    console.log("Loading ... waiting for something...");
+  })
   .controller('TabCtrl', function($scope, Setup) {
 
     $scope.checkSetup = function(tab) {
@@ -90,7 +104,7 @@ angular.module('strikethru.controllers', [])
     $scope.todos = [];
     $scope.currentList = "livelist";
   })
-  .controller('DumpCtrl', function($scope, Todos, Setup) {
+  .controller('DumpCtrl', function($scope, Todos ) {
     $scope.todos = [];
     $scope.currentList = "dump";
   })
@@ -224,13 +238,13 @@ angular.module('strikethru.controllers', [])
       }
     }, true);
   })
-  .controller('SetupCtrl', function($scope, Setup, $timeout, Todos, Confirm, LABELS) {
+  .controller('SetupCtrl', function($scope, $timeout, Todos, Confirm, LABELS) {
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         $scope.settings = {
           user: user
         };
-        Setup.syncInScope($scope);
+        //Setup.syncInScope($scope);
 
         $scope.clearDoneTasks = {
           running: false,
