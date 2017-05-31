@@ -220,7 +220,7 @@ angular.module('strikethru.services', [])
       }
     }
   })
-  .facto('Todos', function($firebaseArray, CurrentListService, $ionicLoading, Auth) {
+  .factory('Todos', function($firebaseArray, CurrentListService, $ionicLoading, Auth) {
 
     var database = firebase.database();
     var userId = Auth.getCurrentUser().uid;
