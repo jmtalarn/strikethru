@@ -210,7 +210,7 @@
      * @return {Object} The client's authentication data.
      */
     getAuth: function() {
-      return this._auth.currentUser;
+      return this._Auth.$getAuth();
     },
 
     /**

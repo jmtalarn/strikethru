@@ -169,35 +169,31 @@ angular.module('strikethru.services', [])
       }
     }
   })
-  .factory('Setup', function($firebaseObject, SETUP, $state, $rootScope, $ionicLoading) {
+  .service('Setup', function($firebaseObject, SETUP, $state, $rootScope, $ionicLoading, Auth) {
 
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-          console.log("YAY!");
-      }
+    $ionicLoading.show({
+      template: 'Loading...'
     });
+    var database = firebase.database();
+
+    var userId = Auth.getCurrentUser().uid;
+    var setupRef = firebase.database().ref('users/' + userId + '/setup');
+
+    var setup = $firebaseObject(setupRef);
+
+    setup.$loaded().then(function() {
+      if (!setup.strikethru) {
+        setup.strikethru = "Standard";
+      }
+      $state.go('tab.livelist', {}, {
+        location: "replace"
+      });
+      $ionicLoading.hide();
+
+    });
+
     //Default values
     return {
-      init: function(){
-        $ionicLoading.show({ template: 'Loading...'});
-        var database = firebase.database();
-
-        var userId = firebase.auth().currentUser.uid;
-        var setupRef = firebase.database().ref('users/' + userId + '/setup');
-
-        var setup = $firebaseObject(setupRef);
-
-        setup.$loaded().then(function() {
-          if (!setup.strikethru) {
-            setup.strikethru = "Standard";
-          }
-          $state.go('tab.livelist', {}, {
-            location: "replace"
-          });
-          $ionicLoading.hide();
-          
-        });
-      },
       check: function(check) {
         return (SETUP.STRIKETHRU[setup.strikethru] >= SETUP.STRIKETHRU[check])
       },
@@ -215,15 +211,21 @@ angular.module('strikethru.services', [])
       },
 
       syncInScope: function($scope) {
-        $ionicLoading.show({ template: 'Loading...'});
-        setup.$bindTo($scope, "setup").then(function() { $ionicLoading.hide();});
+        $ionicLoading.show({
+          template: 'Loading...'
+        });
+        setup.$bindTo($scope, "setup").then(function() {
+          $ionicLoading.hide();
+        });
       }
     }
   })
-  .factory('Todos', function($firebaseArray, CurrentListService, $ionicLoading) {
-    $ionicLoading.show({ template: 'Loading...'});
+  .factory('Todos', function($firebaseArray, CurrentListService, $ionicLoading, Auth) {
+    $ionicLoading.show({
+      template: 'Loading...'
+    });
     var database = firebase.database();
-    var userId = firebase.auth().currentUser.uid;
+    var userId = Auth.getCurrentUser().uid;
     var livelistRef = firebase.database().ref('users/' + userId + '/todos').child('livelist');
     var dumpRef = firebase.database().ref('users/' + userId + '/todos').child('dump');
     var vaultRef = firebase.database().ref('users/' + userId + '/todos').child('vault');
@@ -231,10 +233,14 @@ angular.module('strikethru.services', [])
     var livelist = $firebaseArray(livelistRef.orderByChild("priority"));
     var dump = $firebaseArray(dumpRef.orderByChild("priority"));
     var vault = {};
-    Promise.all([livelist.$loaded(), dump.$loaded()]).then(function(){ $ionicLoading.hide()});
+    Promise.all([livelist.$loaded(), dump.$loaded()]).then(function() {
+      $ionicLoading.hide()
+    });
 
     var getArray = function(list, vaultId) {
-      $ionicLoading.show({ template: 'Loading...'});
+      $ionicLoading.show({
+        template: 'Loading...'
+      });
       if ('livelist' == list) {
         return livelist;
       } else if ('dump' == list) {
@@ -244,11 +250,12 @@ angular.module('strikethru.services', [])
           $ionicLoading.hide();
           return vault[vaultId];
         } else {
-          var userId = firebase.auth().currentUser.uid;
+          var userId = Auth.getCurrentUser().uid;
           var vaultRef = firebase.database().ref('users/' + userId + '/todos/vault/' + vaultId).child('list');
           vault[vaultId] = $firebaseArray(vaultRef.orderByChild("priority"));
           vault[vaultId].$loaded().then(function() {
-            $ionicLoading.hide(); });
+            $ionicLoading.hide();
+          });
         }
         return vault[vaultId];
       }
@@ -323,9 +330,9 @@ angular.module('strikethru.services', [])
       clearDoneTasks: clearDoneTasks
     };
   })
-  .factory('Vault', function($firebaseArray, $firebaseObject, $ionicPopup) {
+  .factory('Vault', function($firebaseArray, $firebaseObject, $ionicPopup, Auth) {
     var database = firebase.database();
-    var userId = firebase.auth().currentUser.uid;
+    var userId = Auth.getCurrentUser().uid;
     var vaultRef = firebase.database().ref('users/' + userId + '/todos').child('vault');
     var vault = $firebaseArray(vaultRef);
 
@@ -355,4 +362,100 @@ angular.module('strikethru.services', [])
         }
       }
     };
-  });
+  })
+  .factory("Auth", ["$firebaseAuth", "$state",  "$ionicHistory","$cordovaGooglePlus",
+
+    function($firebaseAuth, $state, $ionicHistory, $cordovaGooglePlus) {
+      var Auth = $firebaseAuth();
+      var currentUser = {};
+      function getCurrentUser(){
+        return currentUser;
+      }
+      // $firebaseAuth().$onAuthStateChanged(function(firebaseUser) {
+      //   if (firebaseUser) {
+      //     $ionicHistory.nextViewOptions({
+      //       historyRoot: true
+      //     });
+      //     $state.go("tab.livelist", {}, {
+      //       location: "replace"
+      //     });
+      //   } else {
+      //     console.log("Signed out");
+      //     $ionicHistory.nextViewOptions({
+      //       historyRoot: true
+      //     });
+      //     $state.go('login', {}, {
+      //       location: "replace"
+      //     });
+      //   }
+      // });
+      function login(){
+        $cordovaGooglePlus.login({
+            'webClientId': '219119179196-6bab0a9s9h2kef3bidt31n6ml2iaatq4.apps.googleusercontent.com',
+            'offline': true
+          })
+          .then(function(userData) {
+
+            var provider = Auth.GoogleAuthProvider.credential(userData.idToken);
+            Auth.$signInWithCredential(provider)
+              .then((success) => {
+                console.log("Logged in via firebase.auth().signInWithCredential(provider)");
+                currentUser = {
+                   uid: success.user.uid,
+                   displayName: success.user.displayName,
+                   email: success.user.email,
+                   photoURL: success.user.photoURL
+                };
+                $state.go("tab.livelist", {}, {
+                  location: "replace"
+                });
+              })
+              .catch((error) => {
+                console.log("Firebase failure: " + JSON.stringify(error));
+                //this.displayAlert(error, "signInWithCredential failed")
+              });
+
+          }, function(err) {
+            console.log('error');
+            console.log(err);
+            if (err == "cordova_not_available") {
+              //var provider = new firebase.auth.GoogleAuthProvider();
+              Auth.$signInWithPopup("google").then(function(result) {
+                console.log("Logged in via firebase.auth.GoogleAuthProvider()");
+                currentUser = {
+                  uid: result.user.uid,
+                  displayName: result.user.displayName,
+                  email: result.user.email,
+                  photoURL: result.user.photoURL
+                };
+                $state.go("tab.livelist", {}, {
+                  location: "replace"
+                });
+              }).catch(function(error) {
+                console.error("Authentication failed:", error);
+              });
+            }
+          });
+      }
+      function logout(){
+        Auth.$signOut().then(function() {
+          currentUser = {};
+          $ionicHistory.nextViewOptions({
+            historyRoot: true
+          });
+          $state.go('login', {}, {
+            location: "replace"
+          });
+        }, function(error) {
+          console.error(error);
+        });
+      }
+
+
+      return {
+        login: login,
+        logout: logout,
+        getCurrentUser: getCurrentUser
+      };
+    }
+  ]);

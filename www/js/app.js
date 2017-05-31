@@ -1,15 +1,17 @@
 angular.module('strikethru', ['ionic', 'firebase', 'ngCordova', 'strikethru.controllers', 'strikethru.services', 'strikethru.directives', 'strikethru.constants', "ion-datetime-picker", 'ionic.native'])
   .constant('FIREBASE_ROOT', 'https://strikethru-b4a44.firebaseio.com')
-  .run(function($ionicPlatform, $rootScope, $ionicLoading) {
+  .run(function($ionicPlatform, $state, $rootScope, $firebaseAuth) {
     $ionicPlatform.ready(function() {
       //https://forum.ionicframework.com/t/firebas-and-ionic-issues/48922/4
-      document.addEventListener("resume", function() {
-        firebase.database().goOnline();
-      }, false);
+      // document.addEventListener("resume", function() {
+      //   firebase.database().goOnline();
+      // }, false);
+      //
+      // document.addEventListener("pause", function() {
+      //   firebase.database().goOffline();
+      // }, false);
 
-      document.addEventListener("pause", function() {
-        firebase.database().goOffline();
-      }, false);
+
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
       if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -21,6 +23,32 @@ angular.module('strikethru', ['ionic', 'firebase', 'ngCordova', 'strikethru.cont
         // org.apache.cordova.statusbar required
         StatusBar.styleDefault();
       }
+
+      $rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {
+        // We can catch the error thrown when the $requireSignIn promise is rejected
+        // and redirect the user back to the home page
+        if (error === "AUTH_REQUIRED") {
+          $state.go("login");
+        }
+      });
+
+
+      // firebase.auth().onAuthStateChanged(function(user) {
+      //    if (firebase.auth().currentUser) {
+      //      //Removes back link to login page
+      //
+      //      $ionicHistory.nextViewOptions({
+      //        historyRoot: true
+      //      });
+      //      Setup.init();
+      //
+      //
+      //    }else{
+      //      $state.go('login', {}, {
+      //        location: "replace"
+      //      });
+      //    }
+      // });
     })
   })
   .config(function($stateProvider, $urlRouterProvider) {
@@ -35,6 +63,10 @@ angular.module('strikethru', ['ionic', 'firebase', 'ngCordova', 'strikethru.cont
         templateUrl: 'templates/login.html',
         controller: 'loginCtrl'
       })
+      .state('logout', {
+        url: '/logout',
+        controller: 'logoutCtrl'
+      })
       .state('loading', {
         url: '/loading',
         templateUrl: 'templates/loading.html',
@@ -46,6 +78,9 @@ angular.module('strikethru', ['ionic', 'firebase', 'ngCordova', 'strikethru.cont
         abstract: true,
         templateUrl: 'templates/tabs.html',
         controller: 'TabCtrl',
+        resolve: {
+          "Auth": function(Auth){ return Auth; }
+        }
       })
 
       // Each tab has its own nav history stack:
@@ -55,7 +90,10 @@ angular.module('strikethru', ['ionic', 'firebase', 'ngCordova', 'strikethru.cont
         views: {
           'tab-livelist': {
             templateUrl: 'templates/tab-livelist.html',
-            controller: 'LivelistCtrl'
+            controller: 'LivelistCtrl',
+            resolve: {
+              "Auth": function(Auth){ return Auth; }
+            }
           }
         }
       })

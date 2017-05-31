@@ -1,68 +1,13 @@
 angular.module('strikethru.controllers', [])
-
-  .controller('loginCtrl', function($scope, $ionicHistory, $state, $cordovaGooglePlus, Setup) {
-    //Check if user already logged in
-    //firebase.auth().onAuthStateChanged(function(user) {
-      // if (firebase.auth().currentUser) {
-      //   //Removes back link to login page
-      //
-      //   $ionicHistory.nextViewOptions({
-      //     historyRoot: true
-      //   });
-      //
-      //   $state.go('loading', {}, {
-      //     location: "replace"
-      //   });
-      //
-      // }else{
-      //   $state.go('login', {}, {
-      //     location: "replace"
-      //   });
-      // }
-    //});
+  .controller('logoutCtrl', function($scope, $ionicHistory, $state, Auth) {
+    Auth.logout();
+  })
+  .controller('loginCtrl', function($scope, Auth) {
     $scope.logout = function() {
-      firebase.auth().signOut().then(function() {
-        $state.go('login', {}, {
-          location: "replace"
-        });
-      }, function(error) {
-        console.error(error);
-      });
+      Auth.logout();
     }
     $scope.loginGoogle = function() {
-      $cordovaGooglePlus.login({
-          'webClientId': '219119179196-6bab0a9s9h2kef3bidt31n6ml2iaatq4.apps.googleusercontent.com',
-          'offline': true
-        })
-        .then(function(userData) {
-
-          var provider = firebase.auth.GoogleAuthProvider.credential(userData.idToken);
-          firebase.auth().signInWithCredential(provider)
-            .then((success) => {
-              console.log("Logged in via firebase.auth().signInWithCredential(provider)");
-              Setup.init();
-
-            })
-            .catch((error) => {
-              console.log("Firebase failure: " + JSON.stringify(error));
-              //this.displayAlert(error, "signInWithCredential failed")
-            });
-
-        }, function(err) {
-          console.log('error');
-          console.log(err);
-          if (err == "cordova_not_available") {
-            var auth = firebase.auth();
-
-            var provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider).then(function(result) {
-              console.log("Logged in via firebase.auth.GoogleAuthProvider()");
-              Setup.init();
-            }).catch(function(error) {
-              console.error("Authentication failed:", error);
-            });
-          }
-        });
+      Auth.login();
 
       // var auth = firebase.auth();
       //
@@ -78,10 +23,10 @@ angular.module('strikethru.controllers', [])
 
 
   })
-  .controller('LoadingCtrl', function(Setup){
+  .controller('LoadingCtrl', function(Setup) {
     console.log("Loading ... waiting for something...");
   })
-  .controller('TabCtrl', function($scope, Setup) {
+  .controller('TabCtrl', function($scope, Setup, Auth) {
 
     $scope.checkSetup = function(tab) {
       if (Setup.check(tab)) {
@@ -91,12 +36,12 @@ angular.module('strikethru.controllers', [])
       }
     }
   })
-  .controller('LivelistCtrl', function($scope, Todos, Setup) {
-    Setup.syncInScope($scope);
+  .controller('LivelistCtrl', function($scope, Todos) {
+    //Setup.syncInScope($scope);
     $scope.todos = [];
     $scope.currentList = "livelist";
   })
-  .controller('DumpCtrl', function($scope, Todos ) {
+  .controller('DumpCtrl', function($scope, Todos) {
     $scope.todos = [];
     $scope.currentList = "dump";
   })
@@ -230,22 +175,22 @@ angular.module('strikethru.controllers', [])
       }
     }, true);
   })
-  .controller('SetupCtrl', function($scope, $timeout, Todos, Confirm, LABELS,Setup) {
+  .controller('SetupCtrl', function($scope, $timeout, Todos, Confirm, LABELS, Setup, Auth) {
 
+    Setup.syncInScope($scope);
+    $scope.currentUser = Auth.getCurrentUser();
+    $scope.clearDoneTasks = {
+      running: false,
+      run: function() {
+        $scope.clearDoneTasks.running = true;
 
-        $scope.currentUser = firebase.auth().currentUser;
-        $scope.clearDoneTasks = {
-          running: false,
-          run: function() {
-            $scope.clearDoneTasks.running = true;
+        Confirm.show(LABELS.DELETE.CLEAR.TITLE, LABELS.DELETE.CLEAR.TEMPLATE, function() {
 
-            Confirm.show(LABELS.DELETE.CLEAR.TITLE, LABELS.DELETE.CLEAR.TEMPLATE, function() {
+          Todos.clearDoneTasks();
+          $scope.clearDoneTasks.running = false;
+        });
 
-              Todos.clearDoneTasks();
-              $scope.clearDoneTasks.running = false;
-            });
-
-          }
-        };
+      }
+    };
 
   });
