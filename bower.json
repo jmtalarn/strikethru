@@ -8,7 +8,8 @@
     "ion-datetime-picker": "^0.5.1",
     "ngCordova": "^0.1.27-alpha",
     "ionic-native": "^2.0.3",
-    "firebase": "^3.7.5",
-    "angularfire": "^2.3.0"
+    "firebase": "^4.1.1",
+    "angularfire": "^2.3.0",
+    "angular": "^1.6.4"
   }
 }

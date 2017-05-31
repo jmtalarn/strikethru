@@ -77,10 +77,7 @@ angular.module('strikethru', ['ionic', 'firebase', 'ngCordova', 'strikethru.cont
         url: '/tab',
         abstract: true,
         templateUrl: 'templates/tabs.html',
-        controller: 'TabCtrl',
-        resolve: {
-          "Auth": function(Auth){ return Auth; }
-        }
+        controller: 'TabCtrl'
       })
 
       // Each tab has its own nav history stack:
@@ -90,10 +87,7 @@ angular.module('strikethru', ['ionic', 'firebase', 'ngCordova', 'strikethru.cont
         views: {
           'tab-livelist': {
             templateUrl: 'templates/tab-livelist.html',
-            controller: 'LivelistCtrl',
-            resolve: {
-              "Auth": function(Auth){ return Auth; }
-            }
+            controller: 'LivelistCtrl'
           }
         }
       })

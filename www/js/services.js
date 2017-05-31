@@ -220,10 +220,8 @@ angular.module('strikethru.services', [])
       }
     }
   })
-  .factory('Todos', function($firebaseArray, CurrentListService, $ionicLoading, Auth) {
-    $ionicLoading.show({
-      template: 'Loading...'
-    });
+  .facto('Todos', function($firebaseArray, CurrentListService, $ionicLoading, Auth) {
+
     var database = firebase.database();
     var userId = Auth.getCurrentUser().uid;
     var livelistRef = firebase.database().ref('users/' + userId + '/todos').child('livelist');
@@ -233,29 +231,22 @@ angular.module('strikethru.services', [])
     var livelist = $firebaseArray(livelistRef.orderByChild("priority"));
     var dump = $firebaseArray(dumpRef.orderByChild("priority"));
     var vault = {};
-    Promise.all([livelist.$loaded(), dump.$loaded()]).then(function() {
-      $ionicLoading.hide()
-    });
+
 
     var getArray = function(list, vaultId) {
-      $ionicLoading.show({
-        template: 'Loading...'
-      });
+
       if ('livelist' == list) {
         return livelist;
       } else if ('dump' == list) {
         return dump;
       } else if ('vault' == list) {
         if (vault[vaultId]) {
-          $ionicLoading.hide();
+
           return vault[vaultId];
         } else {
           var userId = Auth.getCurrentUser().uid;
           var vaultRef = firebase.database().ref('users/' + userId + '/todos/vault/' + vaultId).child('list');
           vault[vaultId] = $firebaseArray(vaultRef.orderByChild("priority"));
-          vault[vaultId].$loaded().then(function() {
-            $ionicLoading.hide();
-          });
         }
         return vault[vaultId];
       }
@@ -363,10 +354,10 @@ angular.module('strikethru.services', [])
       }
     };
   })
-  .factory("Auth", ["$firebaseAuth", "$state",  "$ionicHistory","$cordovaGooglePlus",
+  .factory("Auth", [ "$state",  "$ionicHistory","$cordovaGooglePlus",
 
-    function($firebaseAuth, $state, $ionicHistory, $cordovaGooglePlus) {
-      var Auth = $firebaseAuth();
+    function($state, $ionicHistory, $cordovaGooglePlus) {
+      var auth = firebase.auth();
       var currentUser = {};
       function getCurrentUser(){
         return currentUser;
@@ -396,16 +387,17 @@ angular.module('strikethru.services', [])
           })
           .then(function(userData) {
 
-            var provider = Auth.GoogleAuthProvider.credential(userData.idToken);
-            Auth.$signInWithCredential(provider)
+            var provider = new firebase.auth.GoogleAuthProvider().credential(userData.idToken);
+            auth.signInWithCredential(provider)
               .then((success) => {
                 console.log("Logged in via firebase.auth().signInWithCredential(provider)");
-                currentUser = {
-                   uid: success.uid,
-                   displayName: success.displayName,
-                   email: success.email,
-                   photoURL: success.photoURL
-                };
+                currentUser = sucess;
+                // {
+                //    uid: success.uid,
+                //    displayName: success.displayName,
+                //    email: success.email,
+                //    photoURL: success.photoURL
+                // };
                 $state.go("tab.livelist", {}, {
                   location: "replace"
                 });
@@ -419,15 +411,16 @@ angular.module('strikethru.services', [])
             console.log('error');
             console.log(err);
             if (err == "cordova_not_available") {
-              //var provider = new firebase.auth.GoogleAuthProvider();
-              Auth.$signInWithPopup("google").then(function(result) {
+              var provider = new firebase.auth.GoogleAuthProvider();
+              auth.signInWithPopup(provider).then(function(result) {
                 console.log("Logged in via firebase.auth.GoogleAuthProvider()");
-                currentUser = {
-                  uid: result.user.uid,
-                  displayName: result.user.displayName,
-                  email: result.user.email,
-                  photoURL: result.user.photoURL
-                };
+                currentUser = result.user;
+                // {
+                //   uid: result.user.uid,
+                //   displayName: result.user.displayName,
+                //   email: result.user.email,
+                //   photoURL: result.user.photoURL
+                // };
                 $state.go("tab.livelist", {}, {
                   location: "replace"
                 });
@@ -438,7 +431,7 @@ angular.module('strikethru.services', [])
           });
       }
       function logout(){
-        Auth.$signOut().then(function() {
+        auth.signOut().then(function() {
           currentUser = {};
           $ionicHistory.nextViewOptions({
             historyRoot: true
