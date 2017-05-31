@@ -401,10 +401,10 @@ angular.module('strikethru.services', [])
               .then((success) => {
                 console.log("Logged in via firebase.auth().signInWithCredential(provider)");
                 currentUser = {
-                   uid: success.user.uid,
-                   displayName: success.user.displayName,
-                   email: success.user.email,
-                   photoURL: success.user.photoURL
+                   uid: success.uid,
+                   displayName: success.displayName,
+                   email: success.email,
+                   photoURL: success.photoURL
                 };
                 $state.go("tab.livelist", {}, {
                   location: "replace"
