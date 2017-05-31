@@ -169,18 +169,23 @@ angular.module('strikethru.services', [])
       }
     }
   })
-  .factory('Setup', function($firebaseObject, SETUP, $state, $rootScope) {
-
-
-    var database = firebase.database();
-
-    var userId = firebase.auth().currentUser.uid;
-    var setupRef = firebase.database().ref('users/' + userId + '/setup');
-
-    var setup = $firebaseObject(setupRef);
+  .factory('Setup', function($firebaseObject, SETUP, $state, $rootScope, $ionicLoading) {
 
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
+          console.log("YAY!");
+      }
+    });
+    //Default values
+    return {
+      init: function(){
+        $ionicLoading.show({ template: 'Loading...'});
+        var database = firebase.database();
+
+        var userId = firebase.auth().currentUser.uid;
+        var setupRef = firebase.database().ref('users/' + userId + '/setup');
+
+        var setup = $firebaseObject(setupRef);
 
         setup.$loaded().then(function() {
           if (!setup.strikethru) {
@@ -189,12 +194,10 @@ angular.module('strikethru.services', [])
           $state.go('tab.livelist', {}, {
             location: "replace"
           });
-
+          $ionicLoading.hide();
+          
         });
-      }
-    });
-    //Default values
-    return {
+      },
       check: function(check) {
         return (SETUP.STRIKETHRU[setup.strikethru] >= SETUP.STRIKETHRU[check])
       },
@@ -209,16 +212,16 @@ angular.module('strikethru.services', [])
           setup.rule135 = value;
         }
         return setup.rule135 || false;
+      },
+
+      syncInScope: function($scope) {
+        $ionicLoading.show({ template: 'Loading...'});
+        setup.$bindTo($scope, "setup").then(function() { $ionicLoading.hide();});
       }
-      // ,
-      //
-      // syncInScope: function($scope) {
-      //
-      //   setup.$bindTo($scope, "setup").then(function() {});
-      // }
     }
   })
-  .factory('Todos', function($firebaseArray, CurrentListService) {
+  .factory('Todos', function($firebaseArray, CurrentListService, $ionicLoading) {
+    $ionicLoading.show({ template: 'Loading...'});
     var database = firebase.database();
     var userId = firebase.auth().currentUser.uid;
     var livelistRef = firebase.database().ref('users/' + userId + '/todos').child('livelist');
@@ -228,19 +231,24 @@ angular.module('strikethru.services', [])
     var livelist = $firebaseArray(livelistRef.orderByChild("priority"));
     var dump = $firebaseArray(dumpRef.orderByChild("priority"));
     var vault = {};
+    Promise.all([livelist.$loaded(), dump.$loaded()]).then(function(){ $ionicLoading.hide()});
 
     var getArray = function(list, vaultId) {
+      $ionicLoading.show({ template: 'Loading...'});
       if ('livelist' == list) {
         return livelist;
       } else if ('dump' == list) {
         return dump;
       } else if ('vault' == list) {
         if (vault[vaultId]) {
+          $ionicLoading.hide();
           return vault[vaultId];
         } else {
           var userId = firebase.auth().currentUser.uid;
           var vaultRef = firebase.database().ref('users/' + userId + '/todos/vault/' + vaultId).child('list');
           vault[vaultId] = $firebaseArray(vaultRef.orderByChild("priority"));
+          vault[vaultId].$loaded().then(function() {
+            $ionicLoading.hide(); });
         }
         return vault[vaultId];
       }

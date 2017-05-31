@@ -41,9 +41,9 @@
         Current logged in user
       </div>
       <div class="item item-avatar">
-        <img ng-src="{{settings.user.photoURL}}">
-        <h2>{{settings.user.displayName}}</h2>
-        <p>({{settings.user.email}})</p>
+        <img ng-src="{{currentUser.photoURL}}">
+        <h2>{{currentUser.displayName}}</h2>
+        <p>({{currentUser.email}})</p>
       </div>
       <div class="padding" ng-controller="loginCtrl">
         <button ng-click="logout()" class="button button-block button-assertive icon ion-log-out "> Logout</button>

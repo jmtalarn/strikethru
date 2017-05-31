@@ -1,23 +1,24 @@
 angular.module('strikethru.controllers', [])
 
-  .controller('loginCtrl', function($scope, $ionicHistory, $state, $cordovaGooglePlus) {
+  .controller('loginCtrl', function($scope, $ionicHistory, $state, $cordovaGooglePlus, Setup) {
     //Check if user already logged in
     //firebase.auth().onAuthStateChanged(function(user) {
-      if (firebase.auth().currentUser) {
-        //Removes back link to login page
-        $ionicHistory.nextViewOptions({
-          historyRoot: true
-        });
-
-        $state.go('tab.livelist', {}, {
-          location: "replace"
-        });
-
-      }else{
-        $state.go('login', {}, {
-          location: "replace"
-        });
-      }
+      // if (firebase.auth().currentUser) {
+      //   //Removes back link to login page
+      //
+      //   $ionicHistory.nextViewOptions({
+      //     historyRoot: true
+      //   });
+      //
+      //   $state.go('loading', {}, {
+      //     location: "replace"
+      //   });
+      //
+      // }else{
+      //   $state.go('login', {}, {
+      //     location: "replace"
+      //   });
+      // }
     //});
     $scope.logout = function() {
       firebase.auth().signOut().then(function() {
@@ -34,23 +35,17 @@ angular.module('strikethru.controllers', [])
           'offline': true
         })
         .then(function(userData) {
-          console.log('good');
-
 
           var provider = firebase.auth.GoogleAuthProvider.credential(userData.idToken);
           firebase.auth().signInWithCredential(provider)
             .then((success) => {
-              console.log("Firebase success: " + JSON.stringify(success));
-              this.displayAlert(JSON.stringify(success), "signInWithCredential successful")
-              this.userProfile = success;
+              console.log("Logged in via firebase.auth().signInWithCredential(provider)");
+              Setup.init();
 
-              $state.go('loading', {}, {
-                location: "replace"
-              });
             })
             .catch((error) => {
               console.log("Firebase failure: " + JSON.stringify(error));
-              this.displayAlert(error, "signInWithCredential failed")
+              //this.displayAlert(error, "signInWithCredential failed")
             });
 
         }, function(err) {
@@ -62,11 +57,7 @@ angular.module('strikethru.controllers', [])
             var provider = new firebase.auth.GoogleAuthProvider();
             auth.signInWithPopup(provider).then(function(result) {
               console.log("Logged in via firebase.auth.GoogleAuthProvider()");
-              //console.log(result.user);
-              //var uid = result.user.uid;
-              $state.go('loading', {}, {
-                location: "replace"
-              });
+              Setup.init();
             }).catch(function(error) {
               console.error("Authentication failed:", error);
             });
@@ -100,7 +91,8 @@ angular.module('strikethru.controllers', [])
       }
     }
   })
-  .controller('LivelistCtrl', function($scope, Todos) {
+  .controller('LivelistCtrl', function($scope, Todos, Setup) {
+    Setup.syncInScope($scope);
     $scope.todos = [];
     $scope.currentList = "livelist";
   })
@@ -238,14 +230,10 @@ angular.module('strikethru.controllers', [])
       }
     }, true);
   })
-  .controller('SetupCtrl', function($scope, $timeout, Todos, Confirm, LABELS) {
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        $scope.settings = {
-          user: user
-        };
-        //Setup.syncInScope($scope);
+  .controller('SetupCtrl', function($scope, $timeout, Todos, Confirm, LABELS,Setup) {
 
+
+        $scope.currentUser = firebase.auth().currentUser;
         $scope.clearDoneTasks = {
           running: false,
           run: function() {
@@ -259,6 +247,5 @@ angular.module('strikethru.controllers', [])
 
           }
         };
-      }
-    });
+
   });
